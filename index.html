@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primero Baraja — Conversaciones con el tarot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,300;0,8..144,400;0,8..144,700;1,8..144,300;1,8..144,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --r: #FF0000; --n: #000; --w: #fff;
+  --c: #111; --c2: #0a0a0a;
+  --b: #252525; --t: #E0E0E0; --s: #666;
+  --f: 'Roboto Serif', Georgia, serif;
+  --nh: 64px; --mx: 960px;
+}
+html,body { min-height:100vh; background:var(--n); color:var(--t); font-family:var(--f); font-size:17px; font-weight:300; line-height:1.75; }
+a { color:inherit; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; height:var(--nh); background:#080808; border-bottom:0.5px solid var(--b); display:flex; align-items:center; justify-content:space-between; padding:0 2rem; z-index:100; }
+.nlogo { display:flex; align-items:center; gap:.75rem; text-decoration:none; }
+.nword { color:#fff; font-weight:700; font-size:1rem; font-family:var(--f); }
+.nlinks { display:flex; gap:2rem; list-style:none; }
+.nlinks a { color:var(--s); text-decoration:none; font-size:.8rem; font-weight:400; letter-spacing:.1em; text-transform:uppercase; transition:color .2s; }
+.nlinks a:hover { color:#fff; }
+.nlinks a.on { color:#fff; border-bottom:1px solid var(--r); padding-bottom:2px; }
+
+/* HERO */
+.hero { min-height:100vh; display:flex; align-items:center; padding:calc(var(--nh) + 3rem) 2rem 4rem; }
+.hi { max-width:var(--mx); margin:0 auto; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.htag { font-size:.68rem; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--r); margin-bottom:1.2rem; }
+.hero h1 { font-size:clamp(2.4rem,5vw,4.2rem); font-weight:700; line-height:1.05; letter-spacing:-.02em; color:#fff; margin-bottom:1.5rem; }
+.hero h1 span { color:var(--r); }
+.hdesc { color:var(--s); font-size:1rem; line-height:1.8; margin-bottom:2.5rem; }
+.hbtns { display:flex; gap:1rem; flex-wrap:wrap; }
+.hlogo { display:flex; justify-content:center; align-items:center; }
+.hlogo svg { width:100%; max-width:300px; height:auto; }
+
+/* BOTONES */
+.btn { display:inline-block; padding:.75rem 1.75rem; font-family:var(--f); font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:2px; text-decoration:none; border:1.5px solid transparent; transition:all .2s; }
+.br { background:var(--r); color:#fff; border-color:var(--r); }
+.br:hover { background:#cc0000; }
+.bo { background:transparent; color:var(--s); border-color:#333; }
+.bo:hover { border-color:#666; color:#fff; }
+
+/* SECTIONS */
+section { padding:5rem 0; }
+.wrap { max-width:var(--mx); margin:0 auto; padding:0 2rem; }
+.slabel { font-size:.68rem; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--r); margin-bottom:.6rem; }
+h2 { font-size:clamp(1.4rem,3vw,2rem); font-weight:700; line-height:1.2; color:#fff; }
+
+/* EPISODIOS */
+.eps { background:var(--c2); }
+.shead { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; }
+.epgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
+.epc { background:var(--c); border:0.5px solid var(--b); border-radius:2px; padding:1.4rem; text-decoration:none; color:inherit; display:block; transition:border-color .2s, transform .2s; }
+.epc:hover { border-color:#444; transform:translateY(-2px); }
+.enum { font-size:.63rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--r); margin-bottom:.5rem; }
+.earc { font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:.4rem; }
+.edesc { font-size:.87rem; color:var(--s); line-height:1.6; margin-bottom:1.2rem; }
+.ecta { font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#444; transition:color .2s; }
+.epc:hover .ecta { color:#fff; }
+
+/* CITA */
+.csec { background:var(--n); border-top:.5px solid var(--b); border-bottom:.5px solid var(--b); }
+.cinn { max-width:640px; margin:0 auto; text-align:center; }
+.cinn blockquote { font-size:clamp(1.1rem,2.5vw,1.5rem); font-style:italic; font-weight:300; line-height:1.65; color:#bbb; margin-bottom:1.5rem; }
+.cinn blockquote::before { content:'\201C'; color:var(--r); }
+.cinn blockquote::after  { content:'\201D'; color:var(--r); }
+.catt { font-size:.7rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#444; }
+.catt span { color:var(--r); }
+
+/* SOBRE */
+.sobre { background:var(--c2); }
+.sgrid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+.sobre p { color:var(--s); margin-bottom:1.2rem; font-size:.97rem; }
+.sobre p strong { color:var(--t); font-weight:700; }
+.icard { background:var(--c); border:.5px solid var(--b); border-left:2px solid var(--r); border-radius:2px; padding:1.2rem 1.4rem; margin-bottom:1rem; }
+.ilabel { font-size:.63rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--s); margin-bottom:.4rem; }
+.icard p { font-size:.87rem; color:#555; margin:0; }
+
+/* FOOTER */
+footer { background:#050505; border-top:.5px solid var(--b); padding:1.5rem 2rem; text-align:center; font-size:.78rem; color:#333; }
+footer a { color:#444; text-decoration:none; }
+footer a:hover { color:#fff; }
+
+@media(max-width:700px){
+  .hi { grid-template-columns:1fr; }
+  .hlogo { display:none; }
+  .sgrid { grid-template-columns:1fr; gap:2rem; }
+  .shead { flex-direction:column; align-items:flex-start; gap:1rem; }
+  nav { padding:0 1.2rem; }
+  .nlinks { gap:1.2rem; }
+  .nlinks a { font-size:.75rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nlogo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 207.06 208.08" height="34" width="34"><circle fill="#111" cx="103.53" cy="104.04" r="103.53"/><path fill="#FF0000" d="M154.83,130.72c-1.46-1.21-2.78-2.38-4.23-3.74-3.6-3.45-12.74-12.81-20.74-20.77,8.43,1.03,17.6-3.23,23.31-11.55,6.98-9.98,4.29-18.14-1.79-23.7-5.42-4.91-15.35-2.61-21.18-1.05-.72-.65,6.4-2.32,9.78-5.1,1.33-.99,6.51-5.83,3.92-6.45-1.75.06-3.25,1.44-5.29.4-3.08-1.49-5.82-5.26-8.36-7.51-2.2-2.49-3.89-.49-2.6,1.97,1.13,2.3-1.81,5.11-3.28,6.63-2.3,2.3-12.31,12.31-20.86,20.86-8.55-8.55-18.56-18.56-20.86-20.86-1.47-1.53-4.41-4.33-3.28-6.63,1.29-2.46-.4-4.46-2.6-1.97-2.54,2.26-5.28,6.02-8.36,7.51-2.04,1.04-3.53-.35-5.29-.4-2.59.62,2.6,5.46,3.92,6.45,3.38,2.77,10.5,4.45,9.78,5.1-5.83-1.56-15.76-3.87-21.18,1.05-6.08,5.57-8.77,13.73-1.79,23.7,5.71,8.32,14.88,12.58,23.31,11.55-8,7.95-17.14,17.31-20.74,20.77-1.45,1.36-2.77,2.53-4.23,3.74-1.31,1.14-2.27,1.62-2.47,2.23-.17,1.05,1.13,4.42,1.95,5.24,1.34,1.16,6.16,1.5,7.75,2.03,1.75.36,1.05.77,1.75,2.66,1.33,3.89,3.99,7.4,6.98,9.98,11.41,10.32,28.07,3.5,35.34-7.48,7.27,10.98,23.94,17.8,35.34,7.48,2.99-2.58,5.65-6.09,6.98-9.98.7-1.89,0-2.3,1.75-2.66,1.58-.52,6.41-.87,7.75-2.03.82-.82,2.12-4.19,1.95-5.24-.2-.61-1.15-1.09-2.47-2.23ZM105.18,122.37c-.61.6-1.15,1.22-1.65,1.85-.5-.63-1.04-1.24-1.65-1.85l-.27-.24c-6.56-6.37-20.6-1.8-22.96-1.28-.18,0-.22-.07-.09-.18,3.72-1.65,9.94-4.12,13.09-7.85,3.94-3.77,7.98-7.47,11.88-11.21,3.91,3.74,7.94,7.44,11.88,11.21,3.15,3.73,9.37,6.21,13.09,7.85.13.11.09.18-.09.18-2.36-.52-16.4-5.09-22.96,1.28l-.27.24ZM115.51,89.68c1.01-1.02,14.67-14.72,18.35-18.32l.07-.03c2.61-.68,7.52-.33,9.39,2.13,5.11,6.06-9.9,18.64-15.51,21.23-5.23,2.33-8.91,2.02-11.2-1.86-.45-.88-1.45-2.33-1.09-3.16ZM63.74,73.47c1.87-2.46,6.78-2.82,9.39-2.13l.07.03c3.68,3.59,17.33,17.3,18.35,18.32.36.83-.64,2.28-1.09,3.16-2.29,3.88-5.97,4.19-11.2,1.86-5.6-2.59-20.61-15.17-15.51-21.23ZM67.26,145.55l-.21-.22c-1.04-.98-2.63-4.24-2.55-4.75.04-.53.7-.82,1.8-2.03,4.72-4.57,15.57-15.89,16.82-16.62,3.45-1.01,11.13-.29,11.25,5.05-.38,8.71-20,25.58-27.11,18.57ZM140,145.34l-.21.22c-7.11,7.01-26.73-9.86-27.11-18.57.11-5.35,7.8-6.06,11.25-5.05,1.26.73,12.1,12.05,16.82,16.62,1.1,1.21,1.76,1.5,1.8,2.03.08.52-1.51,3.77-2.55,4.75Z"/></svg>
+    <span class="nword">primero baraja</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="index.html" class="on">Inicio</a></li>
+    <li><a href="lectura.html">Lectura</a></li>
+    <li><a href="catalogo.html">Catálogo</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hi">
+    <div>
+      <p class="htag">Podcast · Conversaciones con el tarot</p>
+      <h1>primero<br><span>baraja</span></h1>
+      <p class="hdesc">Un podcast donde conversamos sobre una carta de los arcanos mayores por capítulo. Veintidós cartas. Veintidós conversaciones sobre la experiencia humana.</p>
+      <div class="hbtns">
+        <a href="lectura.html" class="btn br">Hacer una lectura</a>
+        <a href="catalogo.html" class="btn bo">Ver catálogo</a>
+      </div>
+    </div>
+    <div class="hlogo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 207.06 208.08" style="width:100%;max-width:280px;height:auto"><circle fill="#111" cx="103.53" cy="104.04" r="103.53"/><path fill="#FF0000" d="M154.83,130.72c-1.46-1.21-2.78-2.38-4.23-3.74-3.6-3.45-12.74-12.81-20.74-20.77,8.43,1.03,17.6-3.23,23.31-11.55,6.98-9.98,4.29-18.14-1.79-23.7-5.42-4.91-15.35-2.61-21.18-1.05-.72-.65,6.4-2.32,9.78-5.1,1.33-.99,6.51-5.83,3.92-6.45-1.75.06-3.25,1.44-5.29.4-3.08-1.49-5.82-5.26-8.36-7.51-2.2-2.49-3.89-.49-2.6,1.97,1.13,2.3-1.81,5.11-3.28,6.63-2.3,2.3-12.31,12.31-20.86,20.86-8.55-8.55-18.56-18.56-20.86-20.86-1.47-1.53-4.41-4.33-3.28-6.63,1.29-2.46-.4-4.46-2.6-1.97-2.54,2.26-5.28,6.02-8.36,7.51-2.04,1.04-3.53-.35-5.29-.4-2.59.62,2.6,5.46,3.92,6.45,3.38,2.77,10.5,4.45,9.78,5.1-5.83-1.56-15.76-3.87-21.18,1.05-6.08,5.57-8.77,13.73-1.79,23.7,5.71,8.32,14.88,12.58,23.31,11.55-8,7.95-17.14,17.31-20.74,20.77-1.45,1.36-2.77,2.53-4.23,3.74-1.31,1.14-2.27,1.62-2.47,2.23-.17,1.05,1.13,4.42,1.95,5.24,1.34,1.16,6.16,1.5,7.75,2.03,1.75.36,1.05.77,1.75,2.66,1.33,3.89,3.99,7.4,6.98,9.98,11.41,10.32,28.07,3.5,35.34-7.48,7.27,10.98,23.94,17.8,35.34,7.48,2.99-2.58,5.65-6.09,6.98-9.98.7-1.89,0-2.3,1.75-2.66,1.58-.52,6.41-.87,7.75-2.03.82-.82,2.12-4.19,1.95-5.24-.2-.61-1.15-1.09-2.47-2.23ZM105.18,122.37c-.61.6-1.15,1.22-1.65,1.85-.5-.63-1.04-1.24-1.65-1.85l-.27-.24c-6.56-6.37-20.6-1.8-22.96-1.28-.18,0-.22-.07-.09-.18,3.72-1.65,9.94-4.12,13.09-7.85,3.94-3.77,7.98-7.47,11.88-11.21,3.91,3.74,7.94,7.44,11.88,11.21,3.15,3.73,9.37,6.21,13.09,7.85.13.11.09.18-.09.18-2.36-.52-16.4-5.09-22.96,1.28l-.27.24ZM115.51,89.68c1.01-1.02,14.67-14.72,18.35-18.32l.07-.03c2.61-.68,7.52-.33,9.39,2.13,5.11,6.06-9.9,18.64-15.51,21.23-5.23,2.33-8.91,2.02-11.2-1.86-.45-.88-1.45-2.33-1.09-3.16ZM63.74,73.47c1.87-2.46,6.78-2.82,9.39-2.13l.07.03c3.68,3.59,17.33,17.3,18.35,18.32.36.83-.64,2.28-1.09,3.16-2.29,3.88-5.97,4.19-11.2,1.86-5.6-2.59-20.61-15.17-15.51-21.23ZM67.26,145.55l-.21-.22c-1.04-.98-2.63-4.24-2.55-4.75.04-.53.7-.82,1.8-2.03,4.72-4.57,15.57-15.89,16.82-16.62,3.45-1.01,11.13-.29,11.25,5.05-.38,8.71-20,25.58-27.11,18.57ZM140,145.34l-.21.22c-7.11,7.01-26.73-9.86-27.11-18.57.11-5.35,7.8-6.06,11.25-5.05,1.26.73,12.1,12.05,16.82,16.62,1.1,1.21,1.76,1.5,1.8,2.03.08.52-1.51,3.77-2.55,4.75Z"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="eps">
+  <div class="wrap">
+    <div class="shead">
+      <div><p class="slabel">Episodios</p><h2>Capítulos publicados</h2></div>
+      <a href="#" class="btn bo" style="font-size:.75rem;padding:.5rem 1.2rem">Ver todos</a>
+    </div>
+    <div class="epgrid" id="epgrid"></div>
+  </div>
+</section>
+
+<section class="csec">
+  <div class="wrap">
+    <div class="cinn">
+      <p class="slabel" style="margin-bottom:1.5rem">Del podcast</p>
+      <blockquote>El tarot funciona como una especie de vocabulario simbólico, un abecedario que permite que la conversación sobre la experiencia humana sea un poco infinita.</blockquote>
+      <p class="catt">— <span>Primero Baraja</span> · Capítulo 0</p>
+    </div>
+  </div>
+</section>
+
+<section class="sobre">
+  <div class="wrap">
+    <div class="sgrid">
+      <div>
+        <p class="slabel">Sobre el proyecto</p>
+        <h2 style="margin-bottom:1.5rem">Conversaciones con el tarot</h2>
+        <p>Se trata de ponerle nombre y dar palabras a procesos intangibles que de otra manera cuesta mucho sostener y conversar.</p>
+        <p>Cada episodio aborda un arcano mayor en profundidad — su historia, su simbología, y lo que tiene que decir sobre la experiencia humana contemporánea.</p>
+        <p><strong>22 arcanos. 22 capítulos. Vamos en el 4.</strong></p>
+        <br>
+        <a href="lectura.html" class="btn br">Hacer una lectura</a>
+      </div>
+      <div>
+        <div class="icard"><p class="ilabel">Fuentes de la lectura</p><p>Rachel Pollack · Alejandro Jodorowsky · Primero Baraja · Rider &amp; Colman Smith</p></div>
+        <div class="icard"><p class="ilabel">Disponible en</p><p>Spotify · YouTube · Apple Podcasts</p></div>
+        <div class="icard"><p class="ilabel">Capítulos</p><p>22 arcanos mayores — 4 publicados</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>primero baraja · conversaciones con el tarot · <a href="#">Instagram</a> · <a href="#">Spotify</a> · <a href="#">YouTube</a></p>
+</footer>
+
+<script>
+const EPS=[
+  {num:0,arc:'El Loco',desc:'El episodio piloto. Por qué el tarot y por qué ahora.',url:'#',ok:true},
+  {num:1,arc:'La Rueda de Fortuna',desc:'Aceptar lo que la vida trae, sin compararlo con lo que esperábamos.',url:'#',ok:true},
+  {num:2,arc:'El Colgado',desc:'La suspensión como forma de ver el mundo al revés.',url:'#',ok:true},
+  {num:3,arc:'La Luna',desc:'Lo que vive en el umbral entre lo consciente y lo que no vemos.',url:'#',ok:true},
+  {num:4,arc:'Próximamente',desc:'El siguiente arcano está en camino.',url:null,ok:false},
+];
+const g=document.getElementById('epgrid');
+EPS.forEach(e=>{
+  const el=document.createElement(e.url?'a':'div');
+  if(e.url){el.href=e.url;el.target='_blank';}
+  el.className='epc';
+  if(!e.ok)el.style.opacity='.38';
+  el.innerHTML=`<p class="enum">Cap. ${e.num}</p><p class="earc">${e.arc}</p><p class="edesc">${e.desc}</p><p class="ecta">${e.ok?'Escuchar →':'Próximamente'}</p>`;
+  g.appendChild(el);
+});
+</script>
+</body>
+</html>
