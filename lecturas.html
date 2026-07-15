@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Primero Baraja — capítulo</title>
+<title>Primero Baraja — Lecturas</title>
 <style>
   @font-face {
     font-family: "Biblioteca";
@@ -121,28 +121,6 @@
     color: var(--gris-claro);
   }
 
-  main.container {
-    padding-top: 32px;
-    padding-bottom: 64px;
-  }
-
-  .hero {
-    margin: 8px 0 0;
-  }
-
-  .hero iframe {
-    display: block;
-    width: 100%;
-    border-radius: 0 !important;
-  }
-
-  .regla {
-    height: 2px;
-    border: 0;
-    margin: 40px 0;
-    background: var(--negro);
-  }
-
   .volver {
     display: inline-block;
     font-size: 14px;
@@ -158,82 +136,59 @@
     border-bottom-color: var(--rojo);
   }
 
+  main.container {
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
   .titulo-seccion {
     font-weight: 800;
     font-size: 28px;
     margin: 0 0 4px;
   }
 
-  .subtitulo-seccion {
+  .lecturas-intro {
     font-weight: 500;
+    font-style: italic;
     font-size: 15px;
-    color: #5a5a5a;
-    margin: 0 0 24px;
+    line-height: 1.6;
+    color: #3a3a3a;
+    max-width: 640px;
+    margin: 12px 0 32px;
   }
 
-  .grilla-frases {
+  .grilla-autores {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 24px;
   }
 
-  .frase-card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    text-align: left;
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 14px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 20px rgba(0,0,0,0.05);
-    padding: 22px;
-    font-family: "Biblioteca", serif;
-    cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-  }
-
-  .frase-card:hover, .frase-card:focus-visible {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.06), 0 14px 28px rgba(0,0,0,0.09);
-    border-color: rgba(255,0,0,0.35);
-  }
-
-  .frase-card.oscura {
-    background: #000000;
-    border-color: rgba(255,255,255,0.12);
-  }
-
-  .frase-card.oscura:hover, .frase-card.oscura:focus-visible {
-    border-color: rgba(255,0,0,0.5);
-  }
-
-  .frase-card.oscura .frase-texto {
-    color: #ffffff;
-  }
-
-  .frase-texto {
-    margin: 0;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 1.55;
+  .autor-tarjeta {
+    display: block;
+    padding: 28px 24px;
+    border: 1px solid var(--negro);
+    border-radius: 0;
+    text-decoration: none;
     color: var(--negro);
-    flex: 1;
+    transition: outline 0.1s ease;
   }
 
-  .frase-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
+  .autor-tarjeta:hover, .autor-tarjeta:focus-visible {
+    outline: 2px solid var(--rojo);
+    outline-offset: 2px;
+  }
+
+  .autor-nombre {
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+
+  .autor-meta {
     font-weight: 500;
-    color: var(--rojo);
-  }
-
-  .sin-frases {
-    font-style: italic;
+    font-size: 13px;
     color: #6b6b6b;
-    font-size: 15px;
+    margin: 0;
   }
 
   footer {
@@ -315,80 +270,6 @@
     text-align: left;
   }
 
-  /* — modal de lectura ampliada — */
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 1000;
-    padding: 24px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-backdrop.activo {
-    display: flex;
-  }
-
-  .modal {
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    max-width: 640px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 40px;
-    position: relative;
-  }
-
-  .modal-cerrar {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: #f2f2f2;
-    color: var(--negro);
-    font-family: "Biblioteca", serif;
-    font-size: 16px;
-    line-height: 1;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  .modal-cerrar:hover, .modal-cerrar:focus-visible {
-    background: var(--rojo);
-    color: #ffffff;
-  }
-
-  .modal-texto {
-    font-family: "Biblioteca", serif;
-    font-weight: 500;
-    font-size: 21px;
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  @media (max-width: 720px) {
-    .grilla-frases { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 480px) {
-    .container { padding-left: 16px; padding-right: 16px; }
-    .header-inner { padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap; }
-    .logo { width: 140px; }
-    nav a, nav button { padding: 6px 12px; font-size: 13px; }
-    main.container { padding-top: 24px; padding-bottom: 48px; }
-    .grilla-frases { grid-template-columns: 1fr; gap: 16px; }
-    .footer-inner { justify-content: flex-start; }
-    .modal { padding: 28px; }
-    .modal-texto { font-size: 18px; }
-  }
 
   .nosotros-backdrop {
     display: none;
@@ -505,6 +386,20 @@
     }
   }
 
+
+  @media (max-width: 720px) {
+    .grilla-autores { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding-left: 16px; padding-right: 16px; }
+    .header-inner { padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap; }
+    .logo { width: 140px; }
+    nav a, nav button { padding: 6px 12px; font-size: 13px; }
+    main.container { padding-top: 24px; padding-bottom: 48px; }
+    .grilla-autores { grid-template-columns: 1fr; }
+    .footer-inner { justify-content: flex-start; }
+  }
 </style>
 </head>
 <body>
@@ -571,19 +466,17 @@
 </header>
 
 <main class="container">
-  <a class="volver" href="index.html#capitulos">← Volver a capítulos</a>
+  <a class="volver" href="index.html">← Volver al inicio</a>
 
-  <section class="hero">
-    <iframe id="spotify-embed" data-testid="embed-iframe" style="border-radius:0" src="https://open.spotify.com/embed/show/39AiEVQ4054hakrVORVblu?utm_source=generator&si=84478c5907d44d8b" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-  </section>
+  <h2 class="titulo-seccion">Lecturas</h2>
+  <p class="lecturas-intro">Las interpretaciones de este podcast nacen de nuestra propia lectura y experiencia con el Tarot, pero también dialogan con autores que han contribuido profundamente a su comprensión.</p>
 
-  <hr class="regla">
-
-  <section>
-    <h2 class="titulo-seccion" id="titulo-capitulo">Capítulo</h2>
-    <p class="subtitulo-seccion" id="subtitulo-capitulo"></p>
-    <div class="grilla-frases" id="grilla-frases"></div>
-  </section>
+  <div class="grilla-autores">
+      <a class="autor-tarjeta" href="autor.html?autor=rachel-pollack">
+        <p class="autor-nombre">Rachel Pollack</p>
+        <p class="autor-meta">Citas disponibles en 14 arcanos</p>
+      </a>
+  </div>
 </main>
 
 <footer>
@@ -602,90 +495,6 @@
     <span class="footer-copy">© 2026 Primero Baraja</span>
   </div>
 </footer>
-
-<div class="modal-backdrop" id="modal-backdrop">
-  <div class="modal">
-    <button class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar">×</button>
-    <p class="modal-texto" id="modal-texto"></p>
-  </div>
-</div>
-
-<script>
-  const CAPITULOS = {"loco": {"numero": 0, "nombre": "El loco"}, "rueda": {"numero": 1, "nombre": "La rueda de la fortuna"}, "templanza": {"numero": 2, "nombre": "La templanza"}, "fuerza": {"numero": 3, "nombre": "La fuerza"}, "carro": {"numero": 4, "nombre": "El carro"}, "papisa": {"numero": 5, "nombre": "La papisa"}, "hierofante": {"numero": 6, "nombre": "El hierofante"}, "torre": {"numero": 7, "nombre": "La torre"}};
-  const FRASES = {"loco": ["El Loco es una carta que, al ser el número cero, rompe el orden establecido. Se podría decir que el recorrido de los arcanos mayores es su camino; por eso queremos partir por él, sintiendo que hacer este podcast también es una locura.", "La invitación es a descubrir qué nos nace decir de cada carta, semana a semana. Hemos construido una relación con el tarot que no proviene de los libros, sino de nuestra propia experiencia, alejándonos de las definiciones y símbolos de los manuales.", "El Loco es, a la vez, cero y totalidad. El cero es algo intangible: no existen “cero manzanas”, pero el cero está presente allí donde no hay manzanas. En ese vacío también está contenida la posibilidad de todo.", "Este será un viaje de veintidós capítulos, del cero al veintiuno. Partimos sin saber exactamente cómo será este podcast; lo iremos descubriendo en el camino, como propone la energía del Loco.", "Delante del Loco no parece haber un camino, sino un precipicio. Ese vértigo es el mismo que sentí cuando me acerqué por primera vez al tarot, cargado de prejuicios y miedo a lo desconocido.", "En la ilustración no sabemos si el Loco va a saltar. Solo vemos que no mira hacia abajo. Hubo un momento en mi vida en que también tuve que decidir entre dar ese salto o seguir caminando como él.", "La frase que siempre asocio con esta carta es “empezar sin garantías”. El tarot invita a renunciar al control, a entregarse al azar de la baraja y dejar de decidirlo todo desde la razón.", "El camino no está trazado de antemano. Aparece donde decides dar el siguiente paso. Cuando no hay senderos, el camino se hace al andar.", "El tarot es un territorio de exploración narrativa, creativa y, a veces, terapéutica o mágica. No busca reducir la experiencia a una sola interpretación, sino abrir un espacio donde pueda aparecer algo nuevo.", "El tarot funciona como un vocabulario simbólico que vuelve infinita la conversación. Le pone palabras a procesos profundamente humanos que atraviesan nuestra vida.", "Las cartas ofrecen un lenguaje para hablar de procesos intangibles. Nos ayudan a nombrar experiencias que, de otro modo, serían difíciles de sostener o compartir.", "Una de las cosas que más me acercó al arte fue dejar de sentir que debía entenderlo todo. Relacionarse con una obra exige renunciar, al menos un poco, a la necesidad constante de explicaciones.", "Disfrutar el tarot implica abandonarse al azar y abrirse al sentido. No toda comprensión pasa por la razón; existen otras formas de conocer.", "Si tu única forma de relacionarte con la realidad es entenderla intelectualmente, dejas fuera gran parte de la experiencia. El tarot enseña a convivir con lo que todavía no comprendemos.", "En la primera carta aparece un perro, un kiltro que parece imitar la postura del Loco. Los perros tienen esa capacidad de relacionarse con nosotros como iguales, simplemente como miembros de la misma manada.", "Solemos pensar que nuestra parte animal debe ser domesticada. Sin embargo, en esa animalidad también habita la ternura. Reprimir una suele significar reprimir la otra.", "Muchas decisiones que creemos racionales nacen, en realidad, de impulsos mamíferos: el deseo de pertenecer, de cuidar el vínculo o de no ser expulsados de la tribu.", "El Loco no oculta su naturaleza animal ni necesita desprenderse de ella. En la imagen existe un diálogo permanente entre él y el perro, como si ambos compartieran un mismo movimiento.", "Hay una enorme delicadeza en la forma en que sostiene la flor y la vara. Está capturado en pleno movimiento, con la mirada elevada, ajeno a lo que ocurre a su alrededor.", "El Loco es el comodín: la carta que rompe el orden y puede aparecer en cualquier lugar. Gracias a esa libertad, abre el acceso al resto de los arcanos.", "Es un personaje difícil de definir. Habita el límite entre muchas cosas: naturaleza y cultura, humanidad y animalidad, masculino y femenino.", "En esta carta el mundo es amarillo, pero el sol es blanco. Ese blanco —compartido por el sol, el perro y la flor— destaca en medio de la luminosidad del paisaje.", "Su vestimenta recuerda los mecanismos de la Rueda de la Fortuna y, al mismo tiempo, está cubierta de flores. También desdibuja las fronteras entre lo masculino y lo femenino, reforzando su carácter fluido.", "El Loco tiene un ego liviano. No vive la fantasía de estar separado del mundo; comprende que formamos parte de un mismo tejido.", "Los objetos pueden ampliar nuestra manera de sentir el mundo. Aunque use zapatos, el Loco sigue en contacto con la tierra. La ropa no rompe su vínculo esencial con la realidad.", "Su maestría consiste en confiar en el fluir de la vida, incluso cuando no existe un camino visible. No necesita que los demás comprendan su recorrido para seguir avanzando.", "El Loco ve la realidad con más claridad que quien se escandaliza por su aparente locura. Muchas veces, quienes juzgan viven atrapados en un guion social que les impide ver las cosas como son.", "Quien inicia un proceso nunca es la misma persona que lo termina. El camino transforma a quien lo recorre.", "Cuando no hay sendero, hace falta el impulso del basto: decir “voy por aquí” sin otra garantía que el propio movimiento. A veces basta con seguir aquello que nos atrae o nos llama.", "Su pecho abierto y sus brazos extendidos invitan a dejar que la vida nos atraviese. El Loco sabe que, al entregarse a la experiencia sin defensas, algo aparecerá, aunque no sepa qué será."], "mago": [], "papisa": ["La Suma Sacerdotisa representa el poder de la presencia. Enseña que, a veces, el solo hecho de estar modifica una situación sin necesidad de intervenir.", "Mientras el Mago transforma el mundo mediante la acción, la Suma Sacerdotisa lo hace desde la receptividad. Es como escuchar música: no busca producir un resultado exterior, sino transformar la experiencia interior.", "Hay una diferencia enorme entre una ausencia y otra. No es lo mismo que alguien no esté porque salió de la casa a que no esté porque murió. El vacío físico puede parecer igual, pero su presencia sigue actuando. La carta habla precisamente de ese poder invisible.", "La palabra caos originalmente no significaba desorden, sino apertura o vacío. La Suma Sacerdotisa invita a vaciarnos de la necesidad de controlar para volvernos verdaderamente disponibles.", "Es la energía de la vasija. Cuando dejamos de imponer constantemente nuestra voluntad, aparece espacio para que algo nuevo pueda manifestarse.", "Su figura también representa una forma de autoridad históricamente invisibilizada. Llamarla \"la Papisa\" es una provocación simbólica: el reconocimiento de una sabiduría femenina en un lugar que durante siglos le fue negado.", "Si el Mago representa el consciente, ella representa el inconsciente. Gran parte de nuestra vida está gobernada por aquello que ignoramos de nosotros mismos.", "Su mirada parece atravesar cualquier máscara. No necesita acusar ni convencer; basta sentirse visto para comenzar a reconocer la propia verdad.", "Tras el velo aparecen las granadas formando un orden que muchos pasan por alto. La carta recuerda que existe un sentido incluso cuando todavía no somos capaces de verlo.", "Existe una verdadera maestría en no hacer. Muchas soluciones aparecen precisamente cuando dejamos de forzarlas.", "La Suma Sacerdotisa funciona como un espejo. No entrega respuestas prefabricadas; devuelve preguntas que solo pueden responderse desde la propia experiencia.", "El pergamino que sostiene representa el conocimiento de las leyes invisibles. Mientras el Mago trabaja con los elementos del mundo, ella custodia aquello que sostiene la realidad desde lo intangible.", "Sentada entre Boaz y Jaquín, habita el punto de equilibrio entre las polaridades. No elige un lado: permanece en el centro.", "La cruz sobre su pecho une lo vertical y lo horizontal, lo divino y lo humano, recordando que ambos planos forman parte de una misma realidad.", "Canalizar significa vaciarse para que algo más grande pueda expresarse. Muchas veces descubrimos una verdad mientras la estamos diciendo.", "La creación necesita tanto la acción como la receptividad. El Mago inicia el movimiento; la Suma Sacerdotisa le ofrece un espacio donde ese movimiento pueda tomar sentido.", "Su actitud recuerda la frase: \"Hágase en mí según tu palabra\". Su fuerza consiste en dejar de ocupar el centro para convertirse en un canal.", "La esfera de su corona simboliza la apertura hacia una conciencia más amplia. La verdadera sabiduría nace cuando dejamos de sentirnos separados del todo.", "Tras el velo se intuye un océano inmenso. Bajo su aparente quietud existe una profundidad emocional que nunca deja de moverse.", "La carta también propone una forma distinta de entender el descanso. Aflojar no es abandonar, sino dejar de tensar aquello que ya no necesita ser controlado.", "Su sabiduría no es dogmática. En lugar de cerrar el sentido de las cosas, lo mantiene abierto.", "Hay una enorme potencia en sentirse verdaderamente observado. Esa mirada no juzga: simplemente revela.", "Su trono, firme pero sin respaldo, expresa una autoridad que no depende de apoyos externos, sino de una presencia estable.", "La verdadera valentía de esta carta consiste en permanecer frente al misterio sin apresurarse a resolverlo.", "También custodia una forma de belleza que nace del equilibrio. Cuando las proporciones encuentran su lugar, sentimos que la materia logra expresar algo espiritual.", "La Suma Sacerdotisa enseña a relacionarnos con aquello que todavía no comprendemos. No exige respuestas inmediatas; cultiva la confianza en que el sentido aparecerá cuando estemos preparados para recibirlo.", "Su vestimenta blanca y celeste expresa una transparencia interior: la capacidad de dejar pasar la verdad sin deformarla con el ego.", "Las granadas hablan de una abundancia escondida. Bajo la superficie siempre existen más posibilidades de las que alcanzamos a percibir.", "El número dos recuerda que toda sabiduría comienza reconociendo la tensión entre los opuestos, sin apresurarse a resolverla.", "Finalmente, la carta nos invita a vaciarnos de nuestras propias ambiciones para estar disponibles a lo que la vida necesita de nosotros. Su mayor enseñanza es que, muchas veces, la presencia transforma más que cualquier acción."], "emperatriz": [], "emperador": [], "hierofante": ["El Sumo Sacerdote representa la autoridad espiritual reconocida por la sociedad. Si la Suma Sacerdotisa encarnaba el misterio oculto, él representa la dimensión visible e institucional de esa misma sabiduría.", "Su tarea consiste en intentar poner palabras a aquello que nunca cabe completamente en el lenguaje. Es el esfuerzo humano por transmitir la experiencia espiritual sin perderla en el camino.", "La carta aparece entre el Emperador y Los Enamorados. Actúa como un puente: toma la solidez de la institución y la orienta hacia el despertar de una vocación más personal y trascendente.", "Las instituciones suelen despertar rechazo, pero nacen del deseo de proteger aquello que consideramos valioso. Construimos una casa para el espíritu con la esperanza de que no desaparezca.", "El problema aparece cuando la casa termina siendo más importante que aquello que debía resguardar. El dogma ofrece respuestas cerradas; la verdadera sabiduría mantiene abiertas las preguntas.", "La carta está atravesada por el número tres: la triple corona, la triple cruz y los tres personajes de la escena. El tres simboliza una mirada capaz de integrar los opuestos desde un nivel superior.", "La autoridad institucional no siempre coincide con la mayor sabiduría. Las estructuras humanas son imperfectas, y precisamente por eso necesitan ser revisadas constantemente.", "Frente al Sumo Sacerdote aparecen dos discípulos que representan la polaridad. Él no elimina sus diferencias; les ofrece un marco donde ambas puedan convivir y aprender.", "Las llaves cruzadas hablan del acceso a un conocimiento que no puede obtenerse únicamente por la razón. Toda iniciación requiere aceptar que existen etapas en el aprendizaje.", "El Sumo Sacerdote ocupa siempre un tercer lugar. Como un buen mediador, intenta comprender el fenómeno completo antes de tomar partido.", "Es la única carta de los Arcanos Mayores que ocurre explícitamente dentro de un templo. El templo representa cualquier espacio donde el espíritu pueda refugiarse del ruido cotidiano.", "Muchas enseñanzas parecen vacías cuando las recibimos. Solo con los años descubrimos que ciertas palabras necesitaban primero una experiencia para poder cobrar sentido.", "En la tradición cabalística, el equilibrio entre el cielo y la tierra recibe el nombre de belleza. Cuando algo es verdaderamente bello, sentimos que la materia logra expresar el espíritu.", "Su gesto une lo que está arriba con lo que está abajo. Toda enseñanza auténtica busca tender ese puente.", "La carta también pregunta cuál es nuestro lugar dentro de las instituciones que habitamos. ¿Seguimos siendo fieles al espíritu que las originó o solo defendemos su estructura?", "Toda institución corre el riesgo de endurecerse. A veces es necesario podar la forma para que el espíritu vuelva a respirar.", "La necesidad de trascendencia nunca desaparece. Incluso cuando abandonamos una tradición, seguimos buscando nuevas formas de organizar aquello que consideramos sagrado.", "El Sumo Sacerdote invita a mirar más allá del bien y del mal simplificados para comprender las causas profundas de las cosas.", "La verdadera autoridad no clausura el sentido; lo expande. Enseña sin apagar la capacidad de seguir preguntando.", "El propio tarot funciona de esa manera. Su estructura fija permite que el azar dialogue con siglos de experiencia simbólica acumulada.", "La tonsura de los frailes expresa el deseo de despejar aquello que impide recibir lo sagrado. Es un gesto de disponibilidad antes que de renuncia.", "Incluso dentro de las instituciones más rígidas suele aparecer alguien que las transforma desde adentro. Toda tradición necesita, de vez en cuando, a su propio \"loco de Dios\".", "El sacerdote administra aquello que no puede medirse. Su autoridad nace de creer que ciertos gestos son capaces de volver visible lo invisible.", "El templo también puede ser entendido como un lugar de acogida: un espacio donde alguien encuentra refugio cuando el mundo exterior deja de ofrecer respuestas.", "Como la Suma Sacerdotisa, esta carta también funciona como un espejo. Frente a una autoridad espiritual nos preguntamos inevitablemente si estamos viviendo de acuerdo con aquello que decimos creer.", "Existe una tensión permanente entre preservar algo y dejarlo completamente libre. Toda tradición vive dentro de ese delicado equilibrio.", "La experiencia espiritual necesita tanto el camino personal como la herencia recibida. El Sumo Sacerdote representa el momento en que ambas comienzan a reconciliarse.", "La belleza puede convertirse en un criterio de orientación. Cuando una enseñanza pierde toda belleza, probablemente también ha perdido parte de su verdad.", "La carta recuerda que pertenecer a una tradición no significa repetirla mecánicamente. También implica mantenerla viva para quienes vendrán después.", "Finalmente, el Sumo Sacerdote nos invita a reconciliarnos con la necesidad de tener maestros, comunidades y estructuras. No para reemplazar nuestra verdad, sino para ofrecernos un suelo desde el cual podamos descubrirla."], "enamorados": [], "carro": ["El Carro es el primer estadio de conciencia relativamente estable. Marca la culminación de la primera línea de los arcanos mayores: la exploración y conquista del mundo exterior.", "Podría llamarse el proceso del éxito mundano: el momento en que una persona comienza a convertirse en un adulto funcional y construye una identidad capaz de operar en la realidad.", "El amor es lo único capaz de romper los lazos creados por otro amor. El Carro representa ese impulso de abandonar el nido, volar por cuenta propia y presentarse ante el mundo como alguien separado.", "La armadura del personaje no parece hecha para la guerra, sino para comunicar prestigio. Es una pieza de lujo, una forma de mostrar capacidad de logro y reconocimiento social.", "Quien conduce el carro no tiene la energía del rey consumado, sino la del príncipe: alguien joven, brillante y todavía necesitado de validación externa.", "Parece fusionado con su vehículo, como si la estructura misma del carro fuera una extensión de su cuerpo. Su identidad y su imagen pública todavía están profundamente unidas.", "La carta habla de una adultez performática. Aunque la vida personal esté en crisis, hay momentos en que el mundo necesita nuestro rol y no nuestra vulnerabilidad.", "Es el paso desde esperar comprensión hacia ofrecer algo concreto. La responsabilidad comienza a pesar más que el estado emocional.", "Sin embargo, sigue siendo una etapa muy temprana. Como un recién graduado, el personaje posee el título, pero aún carece de experiencia real.", "El Carro no tiene riendas visibles. Avanza sostenido por la tensión de fuerzas opuestas, aprendiendo a moverse sin controlar del todo hacia dónde lo llevan.", "Al comienzo de la adultez uno siente que improvisa constantemente, pero con el tiempo descubre que ese recorrido estaba mucho más alineado con su identidad de lo que parecía.", "Precisamente porque no existe un mapa perfecto, terminamos construyendo el camino desde nuestros propios recursos internos.", "La carta también cuestiona el desprecio hacia la imagen. No basta con ser algo; a veces también es necesario parecerlo para que el mundo pueda reconocerlo.", "La imagen no debería traicionar la esencia, sino expresarla. Cuando ambas se separan, dejamos de comunicar quiénes somos realmente.", "Uno puede no estar preparado todavía para ocupar un lugar y, aun así, llevar ese potencial dentro de sí. Como un brote de manzano que aún no da frutos, pero ya contiene al árbol completo.", "En ese sentido, El Carro es una primera aproximación al Loco: “me visto de esto para atreverme a avanzar”. La armadura funciona como una ayuda provisional para entrar en el mundo.", "La energía principal de la carta es la exposición. Salir del nido, mover las alas y descubrir si realmente podemos sostenernos en el aire.", "El príncipe mira el futuro con entusiasmo, aunque todavía no comprenda el peso real de la corona.", "Por eso, en esta etapa necesitamos más estructura. El novato se apoya en manuales; el maestro puede improvisar.", "La enseñanza es simple: primero hay que hacerlo, y después aprender a hacerlo bien. La experiencia solo aparece cuando nos lanzamos a la acción.", "El éxito de El Carro nace de atreverse a actuar antes de sentirse completamente resuelto.", "Es, de alguna manera, la versión joven del Emperador: alguien recién coronado que todavía está aprendiendo a habitar su autoridad.", "Con el tiempo comprendemos que muchas de las decisiones aparentemente improvisadas respondían a fuerzas más profundas de nuestra historia y de nuestra identidad.", "La máscara social del Carro no es necesariamente una mentira; puede ser una herramienta necesaria para desenvolverse dentro de las instituciones y de la vida pública.", "Existe una lucidez en esa improvisación. La falta de un camino pavimentado obliga a descubrir de qué estamos hechos.", "Finalmente, El Carro representa el momento en que uno puede decir: “ya sé quién soy lo suficiente como para salir al mundo”.", "La gran paradoja de esta carta es ser novato y, al mismo tiempo, estar investido con un nuevo rol.", "Su mensaje final es claro: déjate coronar aunque todavía no te sientas preparado. La maestría no llega antes de ocupar el lugar; llega precisamente al habitarlo."], "justicia": [], "ermitaño": [], "rueda": ["Gira. Giro. Me pongo a girar. La Rueda de la Fortuna es una carta suspendida entre las nubes, habitada por seres que parecen contemplar y estudiar la realidad.", "Es una carta asociada a la incertidumbre y a todo aquello que escapa de nuestro control. Habla de las cosas que ocurren aunque no las hayamos elegido.", "Al pasar del Loco a la Rueda de la Fortuna, pareciera que el salto inicial todavía continúa. Seguimos en el aire, cayendo desde aquel primer precipicio.", "La Rueda de la Fortuna declara que el tarot no está construido al azar. Nada en la carta —ni los colores ni las posiciones— parece estar puesto por casualidad.", "Creemos que las cosas simplemente ocurren, pero detrás de ellas existe un mecanismo. El tarot propone que la vida, aunque parezca azarosa, posee un diseño.", "Cuando lanzamos un dado, lo que ocurre responde a las leyes de la física. Como no podemos dominarlas, terminamos llamando \"azar\" a aquello que no comprendemos.", "La Rueda es como abrir un reloj mecánico: vemos engranajes, resortes y piezas funcionando, aunque todavía no entendamos el sentido de cada una.", "Hay algo hermoso en que la vida conserve una parte indescifrable. Puedes estudiar el tarot toda una vida y seguir encontrándote con algo nuevo.", "Narrativamente, la Rueda representa ese momento en que la historia cambia de dirección y el personaje debe responder a un giro inesperado.", "La palabra que más asocio con esta carta es aceptar: recibir lo que la vida trae sin medirlo constantemente contra nuestras expectativas.", "Tal vez el mayor acto de soberbia sea creer que el mundo debería funcionar según nuestros criterios. Antes de juzgar la realidad, vale la pena intentar comprenderla.", "No podemos conocer aquello contra lo que estamos peleando. La comprensión comienza cuando dejamos de resistirnos a la experiencia.", "En el centro de la rueda aparece la química de la vida; en su borde, la física. La carta parece recordarnos que todo está sostenido por un mismo orden.", "La esfinge representa la vida; la serpiente, la muerte; y Anubis, el tránsito que une ambas. La vida no avanza en línea recta, sino en ciclos.", "Anubis guía el descenso al inframundo. Nos acompaña cuando atravesamos procesos difíciles que terminan ampliando nuestra conciencia.", "A veces aparece una verdad nueva y una parte de nosotros muere. La conciencia suele llegar acompañada de una pequeña muerte.", "Esa muerte no es el final. Es un tránsito que puede devolvernos a una forma más amplia de vivir.", "Cuando hablamos de muerte, casi siempre pensamos en la muerte de otros. Sin embargo, vivimos pequeñas muertes constantemente: relaciones, certezas, etapas o identidades que terminan.", "Muchas veces aquello que más duele es precisamente lo que nos despierta. Las crisis cambian la manera en que miramos nuestra vida.", "Si el Loco muestra el reloj por fuera, la Rueda revela el mecanismo que lo hace funcionar.", "No necesito saberlo todo para hablar de tarot. Necesito aprender a convivir con lo que sé y con lo que ignoro.", "Existe una totalidad actuando más allá de nuestra conciencia. Nos demos cuenta o no, la rueda sigue girando.", "A veces la vida nos revuelca como una ola. En medio de ese movimiento, el lenguaje y el conocimiento pueden convertirse en puntos de apoyo.", "Quien más sufre con esta carta suele ser quien intenta controlarla. La Rueda no invita a conocer el futuro, sino a habitar el presente.", "Hay días en que todo cambia sin previo aviso. Podemos saber dónde estamos, pero nunca del todo hacia dónde nos dirigimos.", "Lo que desde nuestra perspectiva parece caótico forma parte de un orden mucho más amplio del que alcanzamos a percibir.", "El tarot tiene menos que ver con adivinar el futuro que con aquietar el espíritu para responder mejor a la vida.", "Un espíritu sereno puede ver con mayor claridad lo que está ocurriendo y responder de forma más consciente.", "La ecuanimidad consiste en permanecer presentes, sin quedar atrapados en el pasado ni proyectados hacia el futuro.", "Acompañar procesos implica aprender a entrar en ciertos dolores para que la conciencia deje de ser solo impacto y pueda transformarse en vida."], "fuerza": ["El Tarot Rider es una baraja profundamente narrativa. Sus escenas nos invitan a relacionarnos con las cartas desde la experiencia y la observación, más que desde las definiciones de un libro.", "El tarot puede convertirse en una práctica cotidiana de observación y autoconocimiento, un espacio para descubrir sentido en la propia experiencia.", "Este podcast busca un tercer territorio: no solo el esotérico ni solo el terapéutico, sino uno de exploración creativa donde cada carta abre una conversación nueva.", "La Fuerza nos invita a mirar dentro de la boca del león. Es la valentía de acercarse a aquello que asusta con la serenidad de quien examina una herida para comprenderla.", "Su poder no nace de la violencia, sino del dominio de sí mismo. La verdadera fuerza consiste en conservar la calma frente a nuestras propias bestias.", "Hay problemas que no necesitan resolverse de inmediato. Muchas veces basta con permanecer frente a ellos, en silencio, para que empiecen a transformarse.", "La conciencia permite atender las causas antes que los efectos. Cuando estamos presentes, podemos reconocer un conflicto antes de que se convierta en una avalancha.", "El camino hacia el mundo interior suele comenzar con una profunda conexión con el mundo exterior. La naturaleza nos enseña a mirar y, al mismo tiempo, a mirarnos.", "Si el Mago transforma la materia, la Fuerza aprende a dialogar con lo vivo. Sanar implica dejar de tratar la vida como un objeto y empezar a relacionarse con ella como un ser vivo.", "El león aparece vulnerable y la mujer lo sostiene con delicadeza. La sanación ocurre cuando podemos encontrarnos con nuestra propia vulnerabilidad sin violencia.", "Existe una maestría en dejar de controlar. Cuando aparece el silencio, muchas veces surge una comprensión que el pensamiento no era capaz de alcanzar.", "En el arte y en la escritura ocurre algo parecido: más que imponer una idea, uno aprende a escuchar aquello que quiere aparecer.", "Esa parte indomable que permanece en nosotros conserva nuestras pasiones más auténticas. El tarot nos ayuda a recuperar esa fuerza que nunca terminó de domesticarse.", "La Fuerza no entrega respuestas cerradas. Funciona como un espejo que nos obliga a descubrir una sabiduría que ya estaba en nuestro interior.", "El tarot pone palabras a procesos profundamente humanos que suelen permanecer invisibles. Nos ofrece un lenguaje para hablar de aquello que cuesta nombrar.", "Mirar dentro de la boca del león es entrar en la oscuridad con confianza. No hace falta fuerza bruta para explorar el misterio, sino suficiente serenidad para permanecer allí.", "Cuanto más honestamente nos conocemos, con mayor claridad podemos ver el mundo y a quienes nos rodean.", "Existe una enorme potencia en estar presentes sin intervenir. Como un buen médico, la carta sostiene un espacio donde algo puede sanar sin ser forzado.", "Examinar la realidad exige intimidad. Solo cuando nos acercamos sin defensas podemos descubrir lo que hay más allá de la superficie.", "La conciencia no es un lujo espiritual; es una herramienta profundamente práctica. Nos permite vivir con mayor claridad y evitar sufrimientos innecesarios.", "El tarot dialoga con múltiples tradiciones simbólicas. Cada lectura es una oportunidad para continuar esa conversación desde nuestra propia experiencia.", "Muchas veces creemos que debemos resolverlo todo pensando más. Sin embargo, algunos conflictos comienzan a transformarse simplemente porque finalmente nos atrevemos a mirarlos.", "El camino hacia el interior también es el camino hacia la voz propia. Al observar el león descubrimos una forma más auténtica de expresarnos.", "Relacionarse con el arte exige renunciar a entenderlo todo. Cuando dejamos de controlar el sentido, aparecen formas más profundas de comprensión.", "La naturaleza nos recuerda que no estamos separados del mundo. Al encontrarnos con ella, también nos reencontramos con nosotros mismos.", "La Fuerza propone una disposición alegre frente a lo desconocido. Se trata de explorar el miedo sin dejar de respirar.", "Quien atraviesa un proceso de introspección nunca vuelve siendo la misma persona. El recorrido transforma la manera en que habitamos la realidad.", "Existen verdades que van más allá de nuestras opiniones o emociones pasajeras. El tarot nos invita a entrar en contacto con ese nivel más profundo de sentido.", "La Fuerza no busca eliminar los opuestos, sino aprender a relacionarse con ellos. Su maestría consiste en saber cuándo actuar con firmeza y cuándo hacerlo con suavidad."], "colgado": [], "muerte": [], "templanza": ["El tarot se divide en arcanos menores y arcanos mayores, es decir, misterios menores y misterios mayores. Un arcano es, justamente, un misterio: algo que nunca puede explicarse por completo desde la razón.", "Me gusta pensar los arcanos menores como «situaciones», porque representan escenas de la vida cotidiana. Los mayores, en cambio, son «etapas»: procesos profundos de conciencia y transformación.", "Los arcanos mayores nos invitan a descubrir que, detrás de la vida cotidiana, existe un sentido más amplio. Cuando dejamos de mirar solo los acontecimientos y buscamos su significado, cambia nuestra relación con el mundo.", "En la Templanza vemos un ángel de alas rojas, descalzo, con un pie en la tierra y otro en el agua. Al fondo aparece, por primera vez, un camino que conduce hacia el amanecer.", "Con el Loco no había sendero; en la Rueda seguíamos suspendidos en el aire. La Templanza marca el momento en que finalmente tocamos tierra y aparece una dirección clara.", "El círculo dorado sobre su frente representa el tercer ojo: la capacidad de ver más allá de las apariencias. No lo entiendo como algo sobrenatural, sino como una forma de discernimiento cotidiano.", "Tener el tercer ojo es notar que alguien sonríe mientras está sufriendo, o reconocer un engaño detrás de una oferta demasiado buena. Es aprender a mirar más allá de la superficie.", "La palabra templanza habla tanto de mezclar como de templar el metal. La claridad y el equilibrio no aparecen por casualidad: son el resultado de haber sido transformados por la experiencia.", "La carta anterior es la Muerte. Solo después de atravesar ciertas pérdidas podemos alcanzar esta serenidad. La Templanza no es una calma regalada; es una calma conquistada.", "En su pecho hay un triángulo dentro de un cuadrado. El triángulo apunta hacia lo trascendente; el cuadrado le da estructura y lo vuelve habitable en el mundo concreto.", "La Templanza recuerda que la espiritualidad también necesita forma. Hay una manera de combinar los elementos para que cada uno ocupe su justa medida.", "El gesto de trasvasijar agua entre dos copas exige precisión, concentración y equilibrio. La aparente sencillez de la carta esconde un enorme trabajo interior.", "La Templanza no habla de pasividad, sino de sostenerse con firmeza en medio de un mundo cambiante sin perder la delicadeza.", "Si el Loco invita a fluir y la Rueda a contemplar, la Templanza propone aprender a combinar. Su verbo es mezclar.", "Pienso en esta carta como un ecualizador de sonido: bajar aquello que está demasiado fuerte y elevar lo que apenas se escucha. El equilibrio nunca es fijo; siempre es dinámico.", "Lo veo también en la paternidad: aprender cuándo ser firme y cuándo ser flexible. Ningún manual puede enseñarlo; solo la experiencia desarrolla ese criterio.", "Como un bailarín que parece moverse sin esfuerzo, la verdadera naturalidad nace de una disciplina invisible. La fluidez también se practica.", "Esta carta muestra el trabajo silencioso que hay detrás de la sabiduría. Antes de parecer sereno, alguien tuvo que atravesar muchas dificultades.", "Este ángel no oculta su dolor. Sus alas son rojas y su ropa es blanca. Nos recuerda que la suavidad y la herida pueden convivir sin contradecirse.", "La espiritualidad necesita expresarse en la materia. No basta con la inspiración; también hace falta que el rito funcione, que el vino esté servido y que el micrófono encienda.", "La Templanza enseña a dejar de pensar en términos de polos buenos y malos. Cada energía tiene su lugar; la sabiduría consiste en saber cuándo recurrir a una y cuándo a la otra.", "La primera parte del tarot consiste en aprender a desenvolverse en el mundo. No hace falta comprenderlo todo; basta con encontrar una forma de habitarlo.", "El recorrido de los arcanos puede entenderse como tres movimientos: aprender a vivir en el mundo, ascender hacia el conocimiento interior y, finalmente, regresar con ese aprendizaje integrado.", "La Templanza representa la culminación de ese ascenso: un momento de profunda conexión con una verdad interior.", "Después vendrá el desafío de volver a la vida cotidiana sin perder aquello que fue descubierto en la montaña.", "La carta recupera la fluidez del Loco, pero ya no desde la inocencia, sino desde la conciencia. Ahora sabemos por qué fluimos.", "La verdadera maestría consiste en responder a cada situación con la medida justa: saber cuándo abrazar, cuándo guardar silencio y cuándo intervenir.", "Existe el riesgo de construir una identidad basada en ser «el ángel» de los demás. La Templanza también invita a preguntarnos quiénes somos cuando dejamos de ocupar ese lugar.", "Fingir una perfección que no tenemos termina hiriéndonos. Si otros te ven como un ángel, procura seguir recordando que eres humano.", "Este ángel probablemente termina con los pies llenos de barro. Su calma no nace de vivir lejos del mundo, sino de haber aprendido a caminar dentro de él."], "diablo": [], "torre": ["La Torre es una carta profundamente triunfal. Su triunfo no consiste en destruir, sino en permitir que la verdad prevalezca sobre la apariencia. Para quien busca vivir con honestidad, este derrumbe es una liberación.", "Nuestros dramas hablan de nosotros mismos. No son accidentes ajenos a nuestra historia, sino oportunidades para descubrir algo esencial sobre quienes somos.", "Hay problemas demasiado pequeños para transformarnos y otros tan grandes que escapan completamente de nuestras manos. La Torre aparece justo en ese territorio donde todavía podemos despertar.", "No vemos simplemente un edificio: asistimos a la muerte de una torre. La carta muestra el momento en que una construcción deja de cumplir su propósito y ya no puede sostenerse.", "Es la naturaleza la que pone el límite. Cuando una estructura deja de estar al servicio de la vida, aparece una fuerza mayor que detiene su crecimiento.", "El rayo le arranca la corona porque esa autoridad ya no representa la verdad. No destruye por capricho: retira un poder que dejó de estar vivo.", "Aunque el acontecimiento sea doloroso, trae consigo una bendición. La caída limpia aquello que ya estaba corrompido para abrir espacio a algo nuevo.", "La naturaleza transforma los desechos en fertilidad. Lo que hoy sentimos como pérdida puede convertirse en el suelo donde crecerá la siguiente etapa.", "El rayo irrumpe con violencia, pero alrededor caen pequeñas llamas doradas con delicadeza. Incluso en los procesos más duros existe una forma de cuidado que acompaña la transformación.", "Vivimos erguidos, mirando constantemente hacia arriba. La Torre nos devuelve a la tierra y nos recuerda nuestra verdadera dimensión.", "Por eso la humildad no es humillación. Es volver a tocar el suelo después de haber vivido demasiado tiempo suspendidos en una imagen de nosotros mismos.", "La carta revela aquello que era falso para permitir que aparezca una verdad mucho más simple y natural.", "El rayo no es un castigo ciego. Es una intervención precisa que rompe únicamente aquello que ya no podía seguir sosteniendo la vida.", "Muchas veces insistimos en llevar nuestra existencia hacia lugares donde nunca debió ir. La naturaleza termina corrigiendo aquello que nosotros nos negábamos a escuchar.", "Como un río que inevitablemente encuentra el mar, la vida siempre termina recuperando su cauce.", "La Torre es una noche de tormenta. El momento en que sentimos que el techo que nos protegía desaparece de golpe.", "Pero esa construcción no era el espíritu; era apenas el refugio que habíamos construido para contenerlo. Cuando el refugio se convierte en prisión, necesita derrumbarse.", "La imagen recuerda a la Torre de Babel. Intentamos alcanzar lo divino levantando estructuras cada vez más altas, olvidando que aquello que buscamos ya habita la realidad cotidiana.", "No somos nosotros quienes alcanzamos a Dios. Es la vida la que constantemente intenta alcanzarnos.", "La Torre cae cuando nuestras ideas dejan de ser capaces de contener la verdad.", "Los dogmas quieren decidir dónde puede aparecer lo sagrado. El rayo responde mostrando que la realidad siempre es más amplia que cualquier sistema de creencias.", "Después vendrán la Estrella y la Luna, otras formas de atravesar la noche. Ya no desde el colapso, sino desde una relación más íntima con el misterio.", "El dolor de la Torre rompe de golpe. El de la Luna, en cambio, se parece más al trabajo de un nacimiento.", "También cae el personaje que construimos para sobrevivir. La imagen del Carro, la armadura, la identidad cuidadosamente fabricada.", "En la Estrella apareceremos desnudos por primera vez. Ya no hará falta sostener ningún personaje.", "La Torre también derrumba la fantasía de ser perfectos. Nos devuelve a una humanidad mucho más sencilla.", "No necesitamos tantas estructuras para sostener la vida. Existe una confianza básica que estaba ahí mucho antes que nuestras defensas.", "A partir de aquí el tarot deja de intentar elevarnos por encima de nuestra historia. Nos devuelve a nuestros propios conflictos para aprender a habitarlos.", "Mirar de frente aquello que temíamos hace que gran parte del miedo desaparezca. Muchas veces era la estructura del miedo la que nos mantenía prisioneros, no la realidad misma.", "Finalmente, la Torre enseña que no hay nada que temer del rayo cuando vivimos de acuerdo con la verdad. Solo aquello que era falso necesita caer."], "estrella": [], "luna": [], "sol": [], "juicio": [], "mundo": []};
-  const SPOTIFY = {"loco": "https://open.spotify.com/embed/episode/6Nl0OvuvT66OzTScyIol5I?utm_source=generator&si=82ce80dfdfa244f9", "rueda": "https://open.spotify.com/embed/episode/2exnahcmuChNfQ11bghrm1?utm_source=generator&si=184fe392619a41f5", "templanza": "https://open.spotify.com/embed/episode/3qk9sUVL5zAtiKR1WtcjlD?utm_source=generator&si=1de488b6d99d4209", "fuerza": "https://open.spotify.com/embed/episode/4XixGKyAKBHPwpXldbnL35?utm_source=generator&si=f2c19324e3574080", "carro": "https://open.spotify.com/embed/episode/5BodOGZkjjDszJHM8GmBDu?utm_source=generator&si=c153419da9b34ed7", "papisa": "https://open.spotify.com/embed/episode/56Nxhmgj4qjbMDfcXHGOLj?utm_source=generator&si=c44194f0db1c4283"};
-  const SPOTIFY_SHOW = "https://open.spotify.com/embed/show/39AiEVQ4054hakrVORVblu?utm_source=generator&si=84478c5907d44d8b";
-
-  const params = new URLSearchParams(window.location.search);
-  const arcano = params.get('arcano') || '';
-
-  const embedEl = document.getElementById('spotify-embed');
-  embedEl.src = SPOTIFY[arcano] || SPOTIFY_SHOW;
-
-  const tituloEl = document.getElementById('titulo-capitulo');
-  const subtituloEl = document.getElementById('subtitulo-capitulo');
-  const grillaEl = document.getElementById('grilla-frases');
-
-  const info = CAPITULOS[arcano];
-  const frases = FRASES[arcano] || [];
-
-  if (info) {
-    tituloEl.textContent = 'Capítulo ' + info.numero + ' · ' + info.nombre;
-  } else {
-    tituloEl.textContent = 'Próximamente';
-  }
-  subtituloEl.textContent = 'Frases de este capítulo';
-
-  if (frases.length > 0) {
-    frases.forEach(function(frase, i) {
-      const btn = document.createElement('button');
-      btn.className = 'frase-card' + (i % 2 === 1 ? ' oscura' : '');
-      btn.type = 'button';
-
-      const texto = document.createElement('p');
-      texto.className = 'frase-texto';
-      texto.textContent = '“' + frase + '”';
-
-      const cta = document.createElement('span');
-      cta.className = 'frase-cta';
-      cta.textContent = 'Leer completa →';
-
-      btn.appendChild(texto);
-      btn.appendChild(cta);
-
-      btn.addEventListener('click', function() {
-        abrirModal(frase);
-      });
-      grillaEl.appendChild(btn);
-    });
-  } else {
-    const p = document.createElement('p');
-    p.className = 'sin-frases';
-    p.textContent = 'Todavía no hay frases cargadas para este capítulo.';
-    grillaEl.appendChild(p);
-  }
-
-  const backdrop = document.getElementById('modal-backdrop');
-  const modalTexto = document.getElementById('modal-texto');
-  const modalCerrar = document.getElementById('modal-cerrar');
-
-  function abrirModal(frase) {
-    modalTexto.textContent = '“' + frase + '”';
-    backdrop.classList.add('activo');
-  }
-
-  function cerrarModal() {
-    backdrop.classList.remove('activo');
-  }
-
-  modalCerrar.addEventListener('click', cerrarModal);
-  backdrop.addEventListener('click', function(e) {
-    if (e.target === backdrop) cerrarModal();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') cerrarModal();
-  });
-</script>
 
 <div class="nosotros-backdrop" id="nosotros-backdrop">
   <div class="nosotros-modal">
