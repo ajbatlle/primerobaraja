@@ -1,0 +1,29 @@
+{
+  "titulo": "¡Hola!",
+  "parrafos": [
+    "Gracias por visitarnos y escuchar nuestro podcast.",
+    "Este será un viaje de veintidós capítulos, del cero al veintiuno. Partimos sin saber exactamente cómo será, y lo iremos descubriendo en el camino, como propone la energía del Loco.",
+    "Creemos que el tarot es un territorio de exploración narrativa, creativa y, a veces, terapéutica o mágica. No busca reducir la experiencia a una sola interpretación, sino abrir un espacio donde pueda aparecer algo nuevo.",
+    "Esperamos que disfrutes con nosotros."
+  ],
+  "firma": "Alfredo y Antonio",
+  "foto": "src/assets/nosotros.webp",
+  "fotoAlt": "Alfredo y Antonio, de Primero Baraja",
+  "instagram": [
+    {
+      "etiqueta": "Primero Baraja",
+      "usuario": "@primerobaraja",
+      "url": "https://instagram.com/primerobaraja"
+    },
+    {
+      "etiqueta": "Alfredo",
+      "usuario": "@respuesta.intuitiva",
+      "url": "https://instagram.com/respuesta.intuitiva"
+    },
+    {
+      "etiqueta": "Antonio",
+      "usuario": "@antoniobatllel",
+      "url": "https://instagram.com/antoniobatllel"
+    }
+  ]
+}

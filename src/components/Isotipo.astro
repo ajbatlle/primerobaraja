@@ -1,0 +1,39 @@
+---
+import logo from '../assets/logo.svg';
+
+interface Props {
+  /** Segundos por vuelta completa. */
+  vuelta?: number;
+}
+const { vuelta = 24 } = Astro.props;
+---
+
+<img
+  class="isotipo"
+  src={logo.src}
+  width={logo.width}
+  height={logo.height}
+  alt="Primero Baraja"
+  style={`--vuelta:${vuelta}s`}
+/>
+
+<style>
+  .isotipo {
+    display: block;
+    width: clamp(140px, 24vmin, 300px);
+    height: auto;
+    /* El SVG es cuadrado y esta centrado en su viewBox, asi que el giro
+       por defecto (centro de la caja) ya es sobre su propio eje. */
+    animation: girar var(--vuelta, 24s) linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes girar {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .isotipo { animation: none; }
+  }
+</style>

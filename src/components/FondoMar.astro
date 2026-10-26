@@ -1,0 +1,147 @@
+---
+// Fondo animado: mar cenital en escala de grises + capa de grano.
+// Se pinta detras del contenido y no captura eventos.
+interface Props {
+  /** Duracion del bucle en segundos. A los T segundos el campo vuelve a su estado inicial. */
+  periodo?: number;
+}
+const { periodo = 24 } = Astro.props;
+---
+
+<div class="fondo" aria-hidden="true">
+  <canvas class="fondo-mar" data-periodo={periodo}></canvas>
+  <div class="fondo-grano"></div>
+</div>
+
+<style>
+  .fondo {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* El canvas tiene un buffer diminuto y se estira por CSS: el escalado
+     bilineal del navegador es lo que produce el degradado suave, gratis. */
+  .fondo-mar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #9a9a9a;
+  }
+
+  .fondo-grano {
+    position: absolute;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
+    opacity: 0.085;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+    animation: grano 0.7s steps(1) infinite;
+    will-change: transform;
+  }
+
+  /* Desplazamientos sub-tile: el grano parpadea sin que se lea el patron. */
+  @keyframes grano {
+    0%   { transform: translate(0, 0); }
+    16%  { transform: translate(-13px, 9px); }
+    33%  { transform: translate(7px, -15px); }
+    50%  { transform: translate(-19px, -6px); }
+    66%  { transform: translate(11px, 14px); }
+    83%  { transform: translate(-5px, -11px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fondo-grano { animation: none; }
+  }
+</style>
+
+<script>
+  import { pintarCampo } from '../scripts/campo-mar.js';
+
+  const canvas = document.querySelector<HTMLCanvasElement>('.fondo-mar');
+  if (canvas) {
+    const ctx = canvas.getContext('2d', { alpha: false })!;
+    const PERIODO = Number(canvas.dataset.periodo) || 24;
+    const OMEGA = (Math.PI * 2) / PERIODO;
+    const INTERVALO = 1000 / 30; // 30fps basta y deja medio presupuesto libre
+
+    let ancho = 0;
+    let alto = 0;
+    let aspecto = 1;
+    let imagen: ImageData | null = null;
+
+    function dimensionar() {
+      const vw = window.innerWidth || 1;
+      const vh = window.innerHeight || 1;
+      aspecto = vw / vh;
+      // Buffer pequeño a proposito: el coste por frame depende del buffer,
+      // no de la pantalla, y el estirado CSS hace la suavidad.
+      ancho = Math.max(120, Math.min(260, Math.round(vw / 5)));
+      alto = Math.max(80, Math.round(ancho / aspecto));
+      canvas!.width = ancho;
+      canvas!.height = alto;
+      imagen = ctx.createImageData(ancho, alto);
+    }
+
+    function pintar(t: number) {
+      if (!imagen) return;
+      pintarCampo(imagen.data, ancho, alto, aspecto, OMEGA * t);
+      ctx.putImageData(imagen, 0, 0);
+    }
+
+    const quieto = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let rafId = 0;
+    let inicio = 0;
+    let ultimo = -Infinity;
+
+    function bucle(ahora: number) {
+      rafId = requestAnimationFrame(bucle);
+      if (ahora - ultimo < INTERVALO) return;
+      ultimo = ahora;
+      if (!inicio) inicio = ahora;
+      // El modulo acota t: ni deriva ni perdida de precision en sesiones largas.
+      pintar(((ahora - inicio) / 1000) % PERIODO);
+    }
+
+    function arrancar() {
+      if (rafId || quieto.matches) return;
+      ultimo = -Infinity;
+      inicio = 0;
+      rafId = requestAnimationFrame(bucle);
+    }
+
+    function parar() {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+
+    function reiniciar() {
+      parar();
+      dimensionar();
+      // Primer frame sincrono: si rAF llega tarde o viene throttled, el fondo
+      // ya esta pintado en vez de quedarse en negro.
+      pintar(0);
+      if (!quieto.matches) arrancar();
+    }
+
+    let debounce = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(debounce);
+      debounce = window.setTimeout(reiniciar, 150);
+    });
+
+    // Sin pestaña visible no hay nada que animar.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) parar();
+      else if (!quieto.matches) arrancar();
+    });
+
+    quieto.addEventListener('change', reiniciar);
+
+    reiniciar();
+  }
+</script>

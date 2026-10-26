@@ -1,0 +1,33 @@
+/* Lenguaje de movimiento.
+   Una sola regla lo gobierna todo: nada arranca de golpe y nada rebota.
+   Las curvas salen rapido y frenan largo; ninguna pasa de 1 en su recorrido,
+   asi que no hay sobreimpulso en ninguna parte de la interfaz. */
+
+:root {
+  /* Curvas */
+  --curva: cubic-bezier(0.22, 0.61, 0.24, 1);      /* la de uso general */
+  --curva-larga: cubic-bezier(0.16, 1, 0.3, 1);    /* recorridos grandes */
+  --curva-simetrica: cubic-bezier(0.65, 0, 0.35, 1); /* ida y vuelta */
+  --curva-salida: cubic-bezier(0.4, 0, 1, 1);      /* solo para desaparecer */
+
+  /* Duraciones */
+  --t-toque: 180ms;
+  --t-corta: 320ms;
+  --t-media: 620ms;
+  --t-larga: 1100ms;
+  --t-viaje: 1700ms;
+
+  /* Escalonado: lo que entra en lista lo hace en cascada, nunca en bloque. */
+  --t-cascada: 55ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-toque: 1ms;
+    --t-corta: 1ms;
+    --t-media: 1ms;
+    --t-larga: 1ms;
+    --t-viaje: 1ms;
+    --t-cascada: 0ms;
+  }
+}

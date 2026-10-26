@@ -1,0 +1,66 @@
+@import './movimiento.css';
+
+/* Biblioteca, la tipografia de la marca, rescatada del sitio anterior. */
+@font-face {
+  font-family: 'Biblioteca';
+  src: url('../assets/fuentes/biblioteca-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Biblioteca';
+  src: url('../assets/fuentes/biblioteca-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Biblioteca';
+  src: url('../assets/fuentes/biblioteca-500-italica.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Biblioteca';
+  src: url('../assets/fuentes/biblioteca-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* El escenario es la pantalla: ni la pagina ni el body se desplazan nunca.
+   Lo que no cabe se desplaza dentro de su propia caja. */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html {
+  /* El fondo del mar va en z-index -1: este color es lo que se ve por detras
+     mientras el canvas no ha pintado su primer frame. */
+  background: #9a9a9a;
+
+  /* Medidas del logotipo asentado abajo. Viven aqui porque el logotipo y los
+     controles que se apoyan sobre el tienen que cuadrar sin adivinar. */
+  --logo-final: clamp(140px, 21vw, 280px);
+  --logo-alto: calc(var(--logo-final) * 0.30655); /* 244.6 / 797.9 */
+  --logo-margen: 3.5vh;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+  color: #111;
+  font-family: 'Biblioteca', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+}

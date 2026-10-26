@@ -1,0 +1,81 @@
+---
+// Las dos acciones del mazo. Aparecen al rozar el mazo o el logotipo y se
+// apoyan justo encima del logotipo asentado, usando sus mismas medidas.
+//
+// Como todo lo demas, no se funden: viven en una ranura con recorte y salen
+// deslizandose por ella.
+---
+
+<div class="controles">
+  <div class="controles-ranura">
+    <div class="controles-fila">
+      <button class="control" type="button" data-accion="barajar">Barajar el mazo</button>
+      <span class="control-separador" aria-hidden="true"></span>
+      <button class="control" type="button" data-accion="plegar">Plegar el mazo</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .controles {
+    position: fixed;
+    left: 50%;
+    /* Apoyado sobre el logotipo, con sus mismas medidas compartidas. */
+    bottom: calc(var(--logo-margen) + var(--logo-alto) + 14px);
+    translate: -50% 0;
+    z-index: 8;
+    pointer-events: none;
+  }
+
+  .controles-ranura {
+    overflow: hidden;
+    padding: 2px;
+    margin: -2px;
+  }
+
+  .controles-fila {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 8px;
+    border: 1px solid rgba(17, 17, 17, 0.3);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.24);
+    backdrop-filter: blur(8px);
+    /* Guardada abajo, fuera del recorte. */
+    translate: 0 calc(100% + 8px);
+    transition: translate var(--t-media) var(--curva);
+  }
+
+  .control {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: #111;
+    font: inherit;
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background var(--t-toque) var(--curva), scale var(--t-toque) var(--curva);
+  }
+
+  .control:hover { background: rgba(255, 255, 255, 0.5); }
+  .control:active { scale: 0.97; }
+  .control:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+
+  .control-separador {
+    width: 1px;
+    height: 14px;
+    background: rgba(17, 17, 17, 0.24);
+  }
+
+  /* Solo existen cuando hay mazo desplegado, y solo salen al rozarlo. */
+  :global(html[data-escena='mazo']) .controles { pointer-events: auto; }
+
+  :global(html[data-escena='mazo'][data-controles='true']) .controles-fila {
+    translate: 0 0;
+  }
+</style>

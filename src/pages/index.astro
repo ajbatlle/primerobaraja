@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Logotipo from '../components/Logotipo.astro';
+import InsertCapitulo from '../components/InsertCapitulo.astro';
+import BotonNosotros from '../components/BotonNosotros.astro';
+import Mazo from '../components/Mazo.astro';
+import Controles from '../components/Controles.astro';
+---
+
+<Base titulo="Primero Baraja">
+  <InsertCapitulo />
+  <BotonNosotros />
+  <Mazo />
+  <Controles />
+  <Logotipo />
+</Base>
+
+<script>
+  import { iniciarEntrada } from '../scripts/entrada.js';
+  document.documentElement.dataset.escena = 'portada';
+  iniciarEntrada();
+</script>

@@ -1,0 +1,17 @@
+{
+  "name": "primerobaraja",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "verificar:mar": "node scripts/verificar-mar.mjs",
+    "render:mar": "node scripts/render-mar.mjs",
+    "verificar:mazo": "node scripts/verificar-mazo.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.13.2"
+  }
+}
