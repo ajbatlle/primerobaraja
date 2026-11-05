@@ -53,7 +53,7 @@ export function iniciar() {
     const s = movil() ? 0.45 : 0.5;
     huecos = {
       pila: centro,
-      aparcada: { cx: ix + iw - (w * s) / 2, cy: iy + ih - (h * s) / 2, w: w * s, h: h * s },
+      fuera: { cx: ix + iw / 2, cy: innerHeight + h, w: w * s, h: h * s },
     };
     for (const c of cartas) { c.nodo.style.width = base.w + 'px'; c.nodo.style.height = base.h + 'px'; }
     $('cartas').style.setProperty('--rc', base.w * 0.045 + 'px');
@@ -227,7 +227,7 @@ export function iniciar() {
       apilar(huecos.pila, 0.94);
     } else if (ruta.e === 'sobre') {
       marcar('sobre');
-      apilar(huecos.aparcada, 1, { jitter: 1.2, giroPila: -4 });
+      apilar(huecos.fuera, 1, { jitter: 0.5 });
     } else {
       marcar('mesa');
       if (inicial && !reducido) {

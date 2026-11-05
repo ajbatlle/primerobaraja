@@ -71,19 +71,21 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
     <div class="escenas">
       <!-- Mesa -->
       <section class="escena esc-mesa" id="esc-mesa" aria-label="Inicio">
+        <button class="boton-inicio" type="button" id="barajar"><span>Primero baraja</span><span class="disco" aria-hidden="true"></span></button>
         <p class="pequeno">{cartas.length} arcanos · {publicadas.length} capítulos</p>
-        <button class="gigante" type="button" id="barajar"><span class="disco" aria-hidden="true"></span><span>Barajar</span></button>
       </section>
 
       <!-- Carta -->
       <section class="escena esc-carta" id="esc-carta" aria-labelledby="carta-titulo" inert>
         <div class="rotulo pequeno"><span id="carta-rotulo"></span><h1 class="pequeno" id="carta-titulo" style="font-weight:400;color:var(--tinta);font-size:0.875rem"></h1></div>
         <p class="frase" id="carta-frase"></p>
-        <p class="fuente" id="carta-fuente"></p>
         <div class="player" id="carta-player"></div>
-        <div class="acciones">
-          <button class="pastilla" type="button" id="otra-carta">Otra carta</button>
-          <button class="pastilla pastilla--clara" type="button" id="otra-frase">Otra frase</button>
+        <div class="pie-carta">
+          <p class="fuente" id="carta-fuente"></p>
+          <div class="acciones">
+            <button class="boton" type="button" id="otra-frase">Otra frase</button>
+            <button class="boton" type="button" id="otra-carta">Otra carta</button>
+          </div>
         </div>
       </section>
 
@@ -110,11 +112,13 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
       <!-- De qué se trata -->
       <section class="escena esc-sobre" id="esc-sobre" aria-labelledby="sobre-titulo" inert>
         <h2 id="sobre-titulo">{nosotros.titulo}</h2>
-        {nosotros.parrafos.map((p) => <p>{p}</p>)}
-        <p class="firma">{nosotros.firma}</p>
-        <ul>
-          {nosotros.instagram.map((l) => <li><a href={l.url} target="_blank" rel="noopener">{l.usuario}</a></li>)}
-        </ul>
+        <div class="cuerpo-sobre">
+          {nosotros.parrafos.map((p) => <p>{p}</p>)}
+          <p class="firma">{nosotros.firma}</p>
+          <ul>
+            {nosotros.instagram.map((l) => <li><a href={l.url} target="_blank" rel="noopener">{l.usuario}</a></li>)}
+          </ul>
+        </div>
       </section>
     </div>
 

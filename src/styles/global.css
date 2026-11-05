@@ -17,7 +17,8 @@
   --u: 1.5rem;                      /* unidad base = interlineado del cuerpo */
   --m: calc(2 * var(--u));          /* margen del escenario */
   --gap: var(--u);                  /* medianil */
-  --r: calc(var(--u) * 1.25);
+  --r: calc(var(--u) * 1.25);          /* radio del panel */
+  --rb: 6px;                          /* radio de botones: apenas redondeado */
   --tinta: #0b0b0b;
   --gris: #6b6b6b;
   --blanco: #ffffff;
@@ -78,13 +79,12 @@ img { display: block; max-width: 100%; }
 .pila { position: absolute; inset: 0; z-index: 3; cursor: pointer; }
 html:not([data-escena='mesa']) .pila { pointer-events: none; }
 .foto {
-  position: absolute; z-index: 1;
-  left: calc(2 * var(--u)); top: calc(2 * var(--u));
-  width: 50%; border-radius: var(--r); overflow: hidden;
+  position: absolute; z-index: 1; inset: 0;
+  overflow: hidden;
   clip-path: inset(100% 0 0 0);
   transition: clip-path var(--t-corta) var(--curva-salida);
 }
-.foto img { width: 100%; height: auto; }
+.foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; }
 html[data-escena='sobre'] .foto { clip-path: inset(0); transition: clip-path var(--t-larga) var(--curva-larga) 0.25s; }
 
 /* ------------------------------------------------------------------
@@ -109,38 +109,41 @@ html[data-escena='sobre'] .esc-sobre { clip-path: inset(0); transition: clip-pat
 
 .pequeno { margin: 0; font-size: 0.875rem; color: var(--gris); }
 
-/* Escena Mesa: una sola accion, sin gritar. */
-.esc-mesa { justify-content: space-between; }
-.gigante {
-  display: flex; align-items: center; gap: 0;
-  font-size: 2.441rem;
-  font-weight: 500; letter-spacing: -0.02em; line-height: calc(2 * var(--u));
+/* Escena Mesa: el boton de inicio ocupa las cinco columnas, centrado. */
+.esc-mesa { justify-content: center; gap: var(--u); }
+.boton-inicio {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; height: calc(4 * var(--u)); padding: 0 calc(1.5 * var(--u));
+  border-radius: var(--rb); box-shadow: inset 0 0 0 1px var(--tinta);
+  font-size: 1.953rem; font-weight: 400; letter-spacing: -0.015em;
+  transition: color var(--t-corta) var(--curva);
 }
-.gigante .disco {
-  flex: none; width: 0.5em; height: 0.5em; border-radius: 50%; background: var(--rojo);
-  transform: scale(0.0001); transform-origin: left center; margin-right: -0.5em;
-  transition: transform var(--t-media) var(--curva-larga), margin var(--t-media) var(--curva-larga);
-}
-.gigante:hover .disco, .gigante:focus-visible .disco { transform: scale(1); margin-right: 0.14em; }
+.boton-inicio::before { content: ''; position: absolute; inset: 0; background: var(--tinta); transform: translateY(101%); transition: transform var(--t-media) var(--curva-larga); z-index: -1; }
+.boton-inicio:hover, .boton-inicio:focus-visible { color: var(--blanco); }
+.boton-inicio:hover::before, .boton-inicio:focus-visible::before { transform: none; }
+.boton-inicio .disco { flex: none; width: 0.42em; height: 0.42em; border-radius: 50%; background: var(--rojo); transition: transform var(--t-media) var(--curva-larga); }
+.boton-inicio:hover .disco, .boton-inicio:focus-visible .disco { transform: scale(1.35); }
 
-/* Pastillas */
-.pastilla {
-  position: relative; display: inline-flex; align-items: center; justify-content: center;
-  height: calc(2 * var(--u)); padding: 0 calc(1.25 * var(--u));
-  border-radius: 999px; background: var(--tinta); color: var(--blanco);
-  font-size: 1rem; font-weight: 400;
-  overflow: hidden; isolation: isolate; white-space: nowrap;
+/* Botones: rectangulo apenas redondeado, contorno fino; al pasar se llena de tinta. */
+.boton {
+  position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center;
+  height: calc(2 * var(--u)); padding: 0 var(--u);
+  border-radius: var(--rb); box-shadow: inset 0 0 0 1px var(--tinta);
+  font-size: 1rem; white-space: nowrap;
+  transition: color var(--t-corta) var(--curva);
 }
-.pastilla::before { content: ''; position: absolute; inset: 0; background: var(--rojo); border-radius: inherit; transform: translateY(101%); transition: transform var(--t-corta) var(--curva-larga); z-index: -1; }
-.pastilla:hover::before, .pastilla:focus-visible::before { transform: none; }
-.pastilla--clara { background: var(--suave); color: var(--tinta); }
+.boton::before { content: ''; position: absolute; inset: 0; background: var(--tinta); transform: translateY(101%); transition: transform var(--t-corta) var(--curva-larga); z-index: -1; }
+.boton:hover, .boton:focus-visible { color: var(--blanco); }
+.boton:hover::before, .boton:focus-visible::before { transform: none; }
 
 /* Escena Carta */
-.esc-carta { gap: var(--u); }
+.esc-carta { gap: calc(1.5 * var(--u)); }
 .esc-carta .rotulo { display: flex; justify-content: space-between; gap: var(--gap); }
 .frase { flex: 1 1 0; min-height: calc(6 * var(--u)); margin: 0; overflow: hidden; font-weight: 400; letter-spacing: -0.01em; text-wrap: pretty; }
 .fuente { margin: 0; font-size: 0.875rem; color: var(--gris); }
-.player { height: 152px; width: min(100%, 24rem); border-radius: calc(var(--u) * 0.75); overflow: hidden; background: var(--suave); }
+.player { flex: none; height: 152px; width: 100%; border-radius: 12px; overflow: hidden; background: var(--suave); }
+.pie-carta { flex: none; display: flex; align-items: center; justify-content: space-between; gap: var(--gap); flex-wrap: wrap; }
 .player iframe { width: 100%; height: 100%; border: 0; display: block; }
 .acciones { display: flex; gap: calc(var(--u) / 2); flex-wrap: wrap; }
 
@@ -157,11 +160,12 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
 .fila .pronto .nom { color: var(--gris); }
 
 /* Escena De que se trata */
-.esc-sobre { gap: var(--u); }
-.esc-sobre h2 { margin: 0; font-size: 2.441rem; font-weight: 500; line-height: calc(2 * var(--u)); letter-spacing: -0.02em; }
-.esc-sobre p { margin: 0; max-width: 30em; font-size: 1rem; line-height: var(--u); }
+.esc-sobre { justify-content: space-between; gap: calc(2 * var(--u)); }
+.cuerpo-sobre { display: flex; flex-direction: column; gap: var(--u); }
+.esc-sobre h2 { margin: 0; font-size: 1.5625rem; font-weight: 400; line-height: calc(1.5 * var(--u)); letter-spacing: -0.01em; }
+.esc-sobre p { margin: 0; max-width: 28em; font-size: 1rem; line-height: var(--u); }
 .esc-sobre .firma { font-style: italic; }
-.esc-sobre ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0 var(--u); font-size: 0.875rem; }
+.esc-sobre ul { margin: calc(var(--u) / 2) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0 var(--u); font-size: 0.875rem; }
 .esc-sobre li a { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size var(--t-corta) var(--curva-larga); }
 .esc-sobre li a:hover { background-size: 0 1px; }
 
@@ -206,14 +210,13 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
   .cinta { grid-row: 4; }
   .nav { gap: var(--u); font-size: 0.9375rem; }
   .nav-barajar { display: none; }
-  .gigante { font-size: 1.95rem; }
+  .boton-inicio { font-size: 1.5625rem; height: calc(3 * var(--u)); }
+  .pie-carta { flex-direction: column; align-items: flex-start; }
   .listas { grid-template-columns: 1fr; }
   .escena { padding-bottom: calc(var(--u) / 2); }
   .frase { flex: none; overflow: visible; min-height: 11rem; }
-  .player { flex: none; }
   .fila a, .fila > span { min-height: calc(2 * var(--u)); line-height: calc(2 * var(--u)); }
-  .esc-sobre h2 { font-size: 1.95rem; line-height: calc(1.6 * var(--u)); }
-  .foto { width: 50%; }
+  .esc-sobre h2 { font-size: 1.5625rem; }
 }
 
 /* Reticula visible: ?grilla o tecla g (herramienta de trabajo). */
