@@ -80,14 +80,14 @@
     "bytes": 72586
   },
   {
-    "slug": "justicia",
-    "slugOriginal": "justicia",
+    "slug": "fuerza",
+    "slugOriginal": "fuerza",
     "numero": "08",
-    "nombre": "La justicia",
-    "orden": null,
-    "spotify": null,
-    "imagen": "src/assets/cartas/justicia.webp",
-    "bytes": 73132
+    "nombre": "La fuerza",
+    "orden": 3,
+    "spotify": "https://open.spotify.com/embed/episode/4XixGKyAKBHPwpXldbnL35?utm_source=generator&si=f2c19324e3574080",
+    "imagen": "src/assets/cartas/fuerza.webp",
+    "bytes": 55176
   },
   {
     "slug": "ermitano",
@@ -110,14 +110,14 @@
     "bytes": 80148
   },
   {
-    "slug": "fuerza",
-    "slugOriginal": "fuerza",
+    "slug": "justicia",
+    "slugOriginal": "justicia",
     "numero": "11",
-    "nombre": "La fuerza",
-    "orden": 3,
-    "spotify": "https://open.spotify.com/embed/episode/4XixGKyAKBHPwpXldbnL35?utm_source=generator&si=f2c19324e3574080",
-    "imagen": "src/assets/cartas/fuerza.webp",
-    "bytes": 55176
+    "nombre": "La justicia",
+    "orden": 16,
+    "spotify": null,
+    "imagen": "src/assets/cartas/justicia.webp",
+    "bytes": 73132
   },
   {
     "slug": "colgado",
