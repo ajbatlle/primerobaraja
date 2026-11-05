@@ -22,11 +22,13 @@ const pronto = cartas.filter((c) => !c.publicado);
 const filas = [...publicadas, ...pronto];
 const bloques = [filas.slice(0, 11), filas.slice(11)];
 
-// Frases cortas para la cinta: la primera que cabe de cada capitulo.
+// Cinta: la frase mas corta de cada capitulo. La velocidad es fija (0.16 s por
+// caracter), asi que la vuelta dura mas o menos segun el largo del texto.
 const cinta = publicadas
-  .map((c) => (frases[c.slug]?.frases || []).find((f) => f.t.length <= 110))
+  .map((c) => [...(frases[c.slug]?.frases || [])].sort((x, y) => x.t.length - y.t.length)[0])
   .filter(Boolean)
   .map((f) => f.t);
+const vueltaCinta = Math.round(cinta.reduce((n, t) => n + t.length, 0) * 0.16 * 2);
 
 const datos = {
   show: sitio.spotifyShow,
@@ -123,7 +125,7 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
     </div>
 
     <div class="cinta" aria-hidden="true">
-      <div class="cinta-pista">
+      <div class="cinta-pista" style={`animation-duration: ${vueltaCinta}s`}>
         {[0, 1].map(() => cinta.map((t) => <span>{t}</span>))}
       </div>
     </div>
