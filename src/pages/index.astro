@@ -1,10 +1,10 @@
 ---
-// Primero Baraja. Una sola pagina-escenario: la mesa, con tres hojas de papel
-// que entran deslizando (Carta, Capitulos, De que se trata) y 22 cartas que se
-// reordenan en el sitio. Las rutas son hash (#/carta/justicia) para que atras,
-// recargar y compartir funcionen.
+// Primero Baraja. Una sola pantalla: a la izquierda lo que se lee (barajar, la
+// frase, los capitulos, de que se trata) y a la derecha la mesa, un panel de
+// malla gris donde viven las 22 cartas. Las rutas son hash (#/carta/justicia).
 import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import FondoMar from '../components/FondoMar.astro';
 import arcanos from '../data/arcanos.json';
 import frases from '../data/frases.json';
 import sitio from '../data/sitio.json';
@@ -14,34 +14,35 @@ import isotipo from '../assets/logo.svg?url';
 import foto from '../assets/nosotros.webp';
 
 const naipes = import.meta.glob('../assets/naipes/*.webp', { eager: true, import: 'default' });
-const urlNaipe = async (slug) => {
-  const origen = naipes[`../assets/naipes/${slug}.webp`];
-  return (await getImage({ src: origen, width: 420, format: 'webp' })).src;
-};
+const urlNaipe = async (slug) => (await getImage({ src: naipes[`../assets/naipes/${slug}.webp`], width: 420, format: 'webp' })).src;
 
-const cartas = await Promise.all(
-  arcanos.map(async (a, i) => ({ ...a, i, publicado: a.orden !== null, url: await urlNaipe(a.slug) }))
-);
+const cartas = await Promise.all(arcanos.map(async (a, i) => ({ ...a, i, publicado: a.orden !== null, url: await urlNaipe(a.slug) })));
 const publicadas = cartas.filter((c) => c.publicado).sort((a, b) => b.orden - a.orden);
 const pronto = cartas.filter((c) => !c.publicado);
 const filas = [...publicadas, ...pronto];
 const bloques = [filas.slice(0, 11), filas.slice(11)];
+
+// Frases cortas para la cinta: la primera que cabe de cada capitulo.
+const cinta = publicadas
+  .map((c) => (frases[c.slug]?.frases || []).find((f) => f.t.length <= 110))
+  .filter(Boolean)
+  .map((f) => f.t);
 
 const datos = {
   show: sitio.spotifyShow,
   cartas: cartas.map(({ slug, nombre, numero, orden, spotify, publicado }) => ({ slug, nombre, numero, orden, spotify, publicado })),
   frases,
 };
-const fotoOptimizada = await getImage({ src: foto, width: 640, format: 'webp' });
+const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
 ---
 
 <Base titulo="Primero Baraja" descripcion="Primero Baraja, un podcast sobre tarot. Baraja el mazo, recibe una carta y una frase dicha en el podcast.">
   <a class="salto" href="#contenido">Saltar al contenido</a>
 
-  <!-- Las cartas: una capa propia, decorativa. El contenido accesible vive en las hojas y los botones. -->
+  <!-- Las cartas: capa propia, decorativa. Lo accesible vive en las escenas. -->
   <div class="cartas" aria-hidden="true" id="cartas">
     {cartas.map((c) => (
-      <div class="carta" data-slug={c.slug} data-publicado={c.publicado ? '1' : '0'}>
+      <div class="carta" data-slug={c.slug}>
         <div class="giro">
           <div class="cara dorso"><img src={isotipo} alt="" /></div>
           <div class="cara frente"><img src={c.url} alt="" draggable="false" /></div>
@@ -51,84 +52,82 @@ const fotoOptimizada = await getImage({ src: foto, width: 640, format: 'webp' })
   </div>
 
   <div class="malla" id="contenido">
-    <a class="logotipo" href="#/" aria-label="Primero Baraja, inicio"><img src={logotipo} alt="" /></a>
+    <header class="barra">
+      <a class="logotipo" href="#/" aria-label="Primero Baraja, inicio"><img src={logotipo} alt="" /></a>
+      <nav class="nav" aria-label="Principal">
+        <button type="button" class="nav-barajar" id="nav-barajar">Barajar</button>
+        <a href="#/capitulos" data-ruta="capitulos">Capítulos</a>
+        <a href="#/sobre" data-ruta="sobre">De qué se trata</a>
+      </nav>
+    </header>
 
-    <nav class="nav" aria-label="Principal">
-      <a class="etiqueta etiqueta--cap" href="#/capitulos"><span>Capítulos</span></a>
-      <a class="etiqueta etiqueta--sobre" href="#/sobre"><span>De qué se trata</span></a>
-    </nav>
+    <!-- La mesa -->
+    <div class="mesa" id="mesa" aria-hidden="false">
+      <FondoMar />
+      <div class="foto"><img src={fotoOpt.src} width={fotoOpt.attributes.width} height={fotoOpt.attributes.height} alt={nosotros.fotoAlt} /></div>
+      <button class="pila" type="button" id="pila" aria-label="Barajar el mazo"></button>
+    </div>
 
-    <!-- Marcadores de la retícula: el JS mide estos rectángulos. -->
-    <div class="hueco hueco--pila" data-hueco="pila"></div>
-    <div class="hueco hueco--carta" data-hueco="carta"></div>
-    <div class="hueco hueco--lista" data-hueco="lista"></div>
-    <div class="hueco hueco--aparcada" data-hueco="aparcada"></div>
+    <div class="escenas">
+      <!-- Mesa -->
+      <section class="escena esc-mesa" id="esc-mesa" aria-label="Inicio">
+        <p class="pequeno">{cartas.length} arcanos · {publicadas.length} capítulos</p>
+        <button class="gigante" type="button" id="barajar"><span class="disco" aria-hidden="true"></span><span>Barajar</span></button>
+      </section>
 
-    <button class="pila" type="button" id="pila" aria-label="Barajar el mazo"></button>
-    <div class="cta"><button class="etiqueta" type="button" id="barajar"><span>Barajar</span></button></div>
+      <!-- Carta -->
+      <section class="escena esc-carta" id="esc-carta" aria-labelledby="carta-titulo" inert>
+        <div class="rotulo pequeno"><span id="carta-rotulo"></span><h1 class="pequeno" id="carta-titulo" style="font-weight:500;color:var(--tinta)"></h1></div>
+        <p class="frase" id="carta-frase"></p>
+        <p class="fuente" id="carta-fuente"></p>
+        <div class="player" id="carta-player"></div>
+        <div class="acciones">
+          <button class="pastilla" type="button" id="otra-carta">Otra carta</button>
+          <button class="pastilla pastilla--clara" type="button" id="otra-frase">Otra frase</button>
+        </div>
+      </section>
 
-    <!-- Hoja: Carta -->
-    <section class="hoja hoja--carta" id="hoja-carta" aria-labelledby="carta-titulo" inert>
-      <p class="rotulo" id="carta-rotulo"></p>
-      <h1 class="titulo" id="carta-titulo"></h1>
-      <p class="frase" id="carta-frase"></p>
-      <p class="fuente" id="carta-fuente"></p>
-      <div class="player" id="carta-player"></div>
-      <div class="acciones">
-        <button class="etiqueta" type="button" id="otra-frase"><span>Otra frase</span></button>
-        <button class="etiqueta" type="button" id="otra-carta"><span>Otra carta</span></button>
-      </div>
-    </section>
+      <!-- Capítulos -->
+      <section class="escena esc-capitulos" id="esc-capitulos" aria-labelledby="cap-titulo" inert>
+        <h2 class="pequeno" id="cap-titulo" style="font-weight:500">Capítulos · {publicadas.length} de {cartas.length}</h2>
+        <div class="listas">
+          {bloques.map((bloque, b) => (
+            <ul class="lista">
+              {bloque.map((c, k) => (
+                <li class="fila" style={`--i:${b * 11 + k}`}>
+                  {c.publicado ? (
+                    <a href={`#/carta/${c.slug}`} data-slug={c.slug}><span class="num">{String(c.orden).padStart(2, '0')}</span><span class="nom">{c.nombre}</span></a>
+                  ) : (
+                    <span class="pronto" data-slug={c.slug}><span class="num">··</span><span class="nom">{c.nombre}<span class="solo-lector">, por salir</span></span></span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </section>
 
-    <!-- Hoja: Capítulos -->
-    <section class="hoja hoja--capitulos" id="hoja-capitulos" aria-labelledby="cap-titulo" inert>
-      <h2 id="cap-titulo">Capítulos · {publicadas.length} de {cartas.length}</h2>
-      {bloques.map((bloque, b) => (
-        <ul class="lista">
-          {bloque.map((c, k) => {
-            const i = b * 11 + k;
-            return (
-              <li class="fila" style={`--i:${i}`}>
-                {c.publicado ? (
-                  <a href={`#/carta/${c.slug}`} data-slug={c.slug}>
-                    <span class="num">{String(c.orden).padStart(2, '0')}</span>
-                    <span class="nom">{c.nombre}</span>
-                  </a>
-                ) : (
-                  <span class="pronto" data-slug={c.slug}>
-                    <span class="num">··</span>
-                    <span class="nom">{c.nombre}<span class="solo-lector">, por salir</span></span>
-                  </span>
-                )}
-              </li>
-            );
-          })}
+      <!-- De qué se trata -->
+      <section class="escena esc-sobre" id="esc-sobre" aria-labelledby="sobre-titulo" inert>
+        <h2 id="sobre-titulo">{nosotros.titulo}</h2>
+        {nosotros.parrafos.map((p) => <p>{p}</p>)}
+        <p class="firma">{nosotros.firma}</p>
+        <ul>
+          {nosotros.instagram.map((l) => <li><a href={l.url} target="_blank" rel="noopener">{l.usuario}</a></li>)}
         </ul>
-      ))}
-    </section>
+      </section>
+    </div>
 
-    <!-- Hoja: De qué se trata -->
-    <section class="hoja hoja--sobre" id="hoja-sobre" aria-labelledby="sobre-titulo" inert>
-      <div class="sobre-foto curtina" style="--i:0"><img src={fotoOptimizada.src} width={fotoOptimizada.attributes.width} height={fotoOptimizada.attributes.height} alt={nosotros.fotoAlt} /></div>
-      <div class="sobre-texto">
-        <h2 id="sobre-titulo" class="curtina" style="--i:0">{nosotros.titulo}</h2>
-        {nosotros.parrafos.map((p, i) => <p class="curtina" style={`--i:${i + 1}`}>{p}</p>)}
-        <p class="firma curtina" style={`--i:${nosotros.parrafos.length + 1}`}>{nosotros.firma}</p>
-        <ul class="curtina" style={`--i:${nosotros.parrafos.length + 2}`}>
-          {nosotros.instagram.map((l) => <li><a href={l.url} target="_blank" rel="noopener">{l.etiqueta} · {l.usuario}</a></li>)}
-        </ul>
+    <div class="cinta" aria-hidden="true">
+      <div class="cinta-pista">
+        {[0, 1].map(() => cinta.map((t) => <span>{t}</span>))}
       </div>
-    </section>
-
-    <footer class="pie">
-      <a href="https://instagram.com/primerobaraja" target="_blank" rel="noopener">@primerobaraja</a>
-      <p class="cuenta">{cartas.length} arcanos · {publicadas.length} capítulos</p>
-    </footer>
+    </div>
   </div>
 
   <p class="solo-lector" id="anuncio" aria-live="polite"></p>
   <div class="grilla" id="grilla" aria-hidden="true" hidden>{Array.from({ length: 12 }, () => <i></i>)}</div>
-  <noscript><p style="position:fixed;left:24px;bottom:24px;z-index:10;background:#ebe7dc;padding:12px">Para barajar necesitas JavaScript. El podcast está en <a href="https://open.spotify.com/show/39AiEVQ4054hakrVORVblu">Spotify</a>.</p></noscript>
+  <noscript><p style="position:fixed;left:20px;bottom:20px;z-index:10;background:#fff;padding:12px">Para barajar necesitas JavaScript. El podcast está en <a href="https://open.spotify.com/show/39AiEVQ4054hakrVORVblu">Spotify</a>.</p></noscript>
 
   <script type="application/json" id="datos" set:html={JSON.stringify(datos)} />
   <script>

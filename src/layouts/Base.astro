@@ -1,5 +1,5 @@
 ---
-import FondoMar from '../components/FondoMar.astro';
+
 import '../styles/global.css';
 
 interface Props {
@@ -16,11 +16,11 @@ const { titulo, descripcion = 'Primero Baraja, un podcast sobre tarot.' } = Astr
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
-    <meta name="theme-color" content="#9a9a9a" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace('//', '/')} />
   </head>
   <body>
-    <FondoMar />
+
     <slot />
   </body>
 </html>
