@@ -1,66 +1,282 @@
 @import './movimiento.css';
 
-/* Biblioteca, la tipografia de la marca, rescatada del sitio anterior. */
-@font-face {
-  font-family: 'Biblioteca';
-  src: url('../assets/fuentes/biblioteca-400.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+/* Biblioteca, la tipografia de la marca. */
+@font-face { font-family: 'Biblioteca'; src: url('../assets/fuentes/biblioteca-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Biblioteca'; src: url('../assets/fuentes/biblioteca-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Biblioteca'; src: url('../assets/fuentes/biblioteca-500-italica.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Biblioteca'; src: url('../assets/fuentes/biblioteca-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+
+/* ------------------------------------------------------------------
+   Reticula (referente: hojas A4 de Bastos; Visuelle, grilla seca).
+   Una unidad --u de la que sale todo: margen, medianil, filas, alturas.
+   12 columnas. Todo bloque parte en el inicio de una columna.
+   ------------------------------------------------------------------ */
+:root {
+  --u: clamp(1.375rem, 1.2rem + 0.4vw, 1.5rem);
+  --m: calc(3 * var(--u));
+  --gap: var(--u);
+
+  /* Escala con razon 1,25 desde el cuerpo (1rem). */
+  --t-1: 0.8rem;
+  --t0: 1rem;
+  --t1: 1.25rem;
+  --t2: 1.5625rem;
+  --t3: 1.953rem;
+  --t4: 2.441rem;
+
+  --tinta: #161513;
+  --gris: #5b5852;
+  --papel: #ebe7dc;
+  --rojo: #e52922;
 }
-@font-face {
-  font-family: 'Biblioteca';
-  src: url('../assets/fuentes/biblioteca-500.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Biblioteca';
-  src: url('../assets/fuentes/biblioteca-500-italica.woff2') format('woff2');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Biblioteca';
-  src: url('../assets/fuentes/biblioteca-800.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
+@media (max-width: 760px) {
+  :root { --m: calc(1.5 * var(--u)); --gap: calc(var(--u) / 2); }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-/* El escenario es la pantalla: ni la pagina ni el body se desplazan nunca.
-   Lo que no cabe se desplaza dentro de su propia caja. */
-html,
-body {
-  height: 100%;
-  overflow: hidden;
-  overscroll-behavior: none;
-}
-
-html {
-  /* El fondo del mar va en z-index -1: este color es lo que se ve por detras
-     mientras el canvas no ha pintado su primer frame. */
-  background: #9a9a9a;
-
-  /* Medidas del logotipo asentado abajo. Viven aqui porque el logotipo y los
-     controles que se apoyan sobre el tienen que cuadrar sin adivinar. */
-  --logo-final: clamp(140px, 21vw, 280px);
-  --logo-alto: calc(var(--logo-final) * 0.30655); /* 244.6 / 797.9 */
-  --logo-margen: 3.5vh;
-}
-
+/* El escenario es la pantalla: nada de scroll de pagina. Lo que no cabe
+   se desplaza dentro de su propia caja. */
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+html { background: #9a9a9a; }
 body {
   margin: 0;
   background: transparent;
-  color: #111;
+  color: var(--tinta);
   font-family: 'Biblioteca', Georgia, serif;
+  font-size: 1rem;
+  line-height: var(--u);
   -webkit-font-smoothing: antialiased;
 }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--rojo); outline-offset: 2px; }
+.solo-lector { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.salto { position: fixed; left: var(--m); top: var(--u); z-index: 100; background: var(--papel); padding: 0 var(--u); transform: translateY(-300%); }
+.salto:focus { transform: none; }
+
+/* ------------------------------------------------------------------
+   El escenario: malla de 12 columnas con tres filas (cabecera, cuerpo,
+   pie). Los huecos son marcadores vacios: el JS mide su rectangulo y
+   ahi asienta las cartas.
+   ------------------------------------------------------------------ */
+.malla {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  padding: calc(2 * var(--u)) var(--m);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: calc(2 * var(--u)) minmax(0, 1fr) var(--u);
+  gap: calc(2 * var(--u)) var(--gap);
+  z-index: 3;
+  pointer-events: none;
+}
+.malla > * { pointer-events: auto; }
+.malla > .hueco { pointer-events: none; visibility: hidden; }
+
+.logotipo { grid-column: 1 / span 3; grid-row: 1; align-self: stretch; display: block; z-index: 5; }
+.logotipo img { height: 100%; width: auto; max-width: 100%; }
+.pie { grid-column: 1 / -1; grid-row: 3; align-self: end; display: grid; grid-template-columns: subgrid; font-size: var(--t-1); line-height: var(--u); z-index: 5; }
+.pie > * { margin: 0; }
+.pie a { grid-column: 1 / span 4; text-underline-offset: 0.2em; }
+.pie .cuenta { grid-column: 9 / -1; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Huecos (marcadores de la reticula) */
+.hueco { grid-row: 2; }
+.hueco--pila  { grid-column: 5 / span 4; margin-bottom: calc(3 * var(--u)); }
+.hueco--carta { grid-column: 1 / span 3; }
+.hueco--lista { grid-column: 8 / span 4; }
+.hueco--aparcada { grid-column: 1 / span 3; }
+
+/* ------------------------------------------------------------------
+   Etiquetas de papel (nav y acciones). Sin radio ni sombra. Al pasar,
+   una cortina de tinta sube desde abajo: el relleno es movimiento
+   espacial, no un fundido.
+   ------------------------------------------------------------------ */
+.etiqueta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(2 * var(--u));
+  padding: 0 calc(var(--u) / 2);
+  background: var(--papel);
+  color: var(--tinta);
+  text-align: center;
+  text-decoration: none;
+  font-size: var(--t-1);
+  font-weight: 500;
+  line-height: calc(var(--u) * 0.9);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color var(--t-corta) var(--curva);
+}
+.etiqueta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--tinta);
+  transform: translateY(101%);
+  transition: transform var(--t-corta) var(--curva-larga);
+  z-index: -1;
+}
+.etiqueta:hover, .etiqueta:focus-visible, .etiqueta[aria-current='page'] { color: var(--papel); }
+.etiqueta:hover::before, .etiqueta:focus-visible::before, .etiqueta[aria-current='page']::before { transform: none; }
+
+.nav { display: contents; }
+.nav .etiqueta { grid-row: 1; z-index: 5; }
+.nav .etiqueta--cap { grid-column: 9 / span 2; }
+.nav .etiqueta--sobre { grid-column: 11 / span 2; }
+
+/* CTA bajo el mazo: una barra de 4 columnas. Se oculta con cortina. */
+.cta {
+  grid-column: 5 / span 4;
+  grid-row: 2;
+  align-self: end;
+  height: calc(2 * var(--u));
+  z-index: 3;
+  clip-path: inset(0);
+  transition: clip-path var(--t-media) var(--curva-larga);
+}
+html:not([data-escena='mesa']) .cta { clip-path: inset(0 0 0 100%); pointer-events: none; }
+.cta .etiqueta { width: 100%; height: 100%; font-size: var(--t0); }
+
+/* Pila: area pulsable sobre el mazo */
+.pila { grid-column: 5 / span 4; grid-row: 2; margin-bottom: calc(3 * var(--u)); z-index: 3; cursor: pointer; }
+html:not([data-escena='mesa']) .pila { pointer-events: none; }
+
+/* ------------------------------------------------------------------
+   Hojas de papel: Carta, Capitulos, De que se trata. Siempre existen;
+   aparcadas fuera del escenario y entran deslizando. El papel sobresale
+   una unidad de las columnas (margen negativo) para que el contenido
+   caiga estrictamente sobre la reticula (--n columnas internas).
+   ------------------------------------------------------------------ */
+.hoja {
+  --n: 8;
+  grid-row: 2;
+  margin: calc(-1 * var(--u));
+  padding: var(--u);
+  background: var(--papel);
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  column-gap: var(--gap);
+  align-content: start;
+  z-index: 4;
+  transform: translate3d(calc(100vw + 8 * var(--u)), 0, 0) rotate(2.5deg);
+  transform-origin: 100% 100%;
+  transition: transform var(--t-media) var(--curva-larga);
+}
+.hoja--carta { grid-column: 5 / -1; grid-template-rows: auto minmax(0, 1fr) auto auto; row-gap: var(--u); }
+.hoja--capitulos { --n: 6; grid-column: 1 / span 6; }
+.hoja--sobre { grid-column: 5 / -1; }
+html[data-escena='carta'] .hoja--carta,
+html[data-escena='capitulos'] .hoja--capitulos,
+html[data-escena='sobre'] .hoja--sobre { transform: none; }
+
+/* Revelado de texto: cada palabra sube desde una cortina, al tamano final. */
+.pal { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.2em; margin-bottom: -0.2em; }
+.pal > span { display: inline-block; transform: translateY(110%); transition: transform var(--t-media) var(--curva-larga); transition-delay: calc(var(--i, 0) * 16ms); }
+.pal.in > span { transform: none; }
+.pal.sale > span { transform: translateY(-110%); transition: transform var(--t-corta) var(--curva-salida); transition-delay: calc(var(--i, 0) * 6ms); }
+.frase .pal:first-child > span { text-transform: capitalize; }
+
+/* Hoja de carta */
+.rotulo { grid-row: 1; grid-column: 1 / span 2; font-size: var(--t-1); color: var(--gris); margin: 0; }
+.titulo { grid-row: 1; grid-column: 3 / -1; font-size: var(--t-1); font-weight: 500; margin: 0; }
+.frase {
+  grid-row: 2;
+  grid-column: 3 / -1;
+  margin: 0;
+  min-height: 0;
+  overflow: hidden;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+/* La frase toma el tamaño mas grande de la escala que le cabe (lo decide el JS). */
+.frase.f1 { font-size: var(--t4); line-height: calc(var(--u) * 3); }
+.frase.f2 { font-size: var(--t3); line-height: calc(var(--u) * 2); }
+.frase.f3 { font-size: var(--t2); line-height: calc(var(--u) * 2); }
+.frase.f4 { font-size: var(--t1); line-height: calc(var(--u) * 1.5); }
+.frase.f5 { font-size: var(--t0); line-height: var(--u); }
+.fuente { grid-row: 3; grid-column: 3 / -1; font-size: var(--t-1); color: var(--gris); margin: 0; }
+.player { grid-row: 4; grid-column: 3 / span 4; height: calc(var(--u) * 6.5); background: #dcd7c9; }
+.player iframe { width: 100%; height: 100%; border: 0; display: block; }
+.acciones { grid-row: 4; grid-column: 7 / span 2; display: grid; align-content: end; row-gap: var(--u); }
+
+/* Hoja de capitulos: dos bloques de once filas */
+.hoja--capitulos h2 { grid-column: 1 / -1; margin: 0 0 var(--u); font-size: var(--t-1); font-weight: 500; color: var(--gris); }
+.lista { grid-column: span 3; margin: 0; padding: 0; list-style: none; }
+.fila > a, .fila > span { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); align-items: center; min-height: calc(var(--u) * 1.5); text-decoration: none; overflow: hidden; }
+.fila .num { font-size: var(--t-1); color: var(--gris); font-variant-numeric: tabular-nums; }
+.fila .nom { grid-column: 2 / -1; font-size: var(--t0); }
+.fila .num, .fila .nom { transform: translateY(110%); transition: transform var(--t-media) var(--curva-larga); transition-delay: calc(var(--i, 0) * var(--t-cascada)); }
+html[data-escena='capitulos'] .fila .num, html[data-escena='capitulos'] .fila .nom { transform: none; }
+.fila a:hover .nom, .fila a:focus-visible .nom { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.fila .pronto .nom { color: var(--gris); }
+
+/* Hoja de De que se trata */
+.sobre-foto { grid-column: 1 / span 3; align-self: start; }
+.sobre-foto img { width: 100%; height: auto; }
+.sobre-texto { grid-column: 4 / -1; }
+.sobre-texto h2 { margin: 0 0 var(--u); font-size: var(--t3); line-height: calc(var(--u) * 2); font-weight: 500; color: var(--tinta); }
+.sobre-texto p { margin: 0 0 var(--u); font-size: var(--t0); line-height: var(--u); max-width: 36em; }
+.sobre-texto .firma { font-style: italic; font-weight: 500; }
+.sobre-texto ul { margin: var(--u) 0 0; padding: 0; list-style: none; font-size: var(--t-1); }
+.sobre-texto li a { text-underline-offset: 0.2em; }
+.curtina { clip-path: inset(0 0 100% 0); transition: clip-path var(--t-media) var(--curva-larga); transition-delay: calc(var(--i, 0) * 90ms + 120ms); }
+html[data-escena='sobre'] .curtina { clip-path: inset(0); }
+
+/* ------------------------------------------------------------------
+   Cartas. Capa fija; cada carta se coloca por transform desde el JS.
+   ------------------------------------------------------------------ */
+.cartas { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+.carta { position: absolute; left: 0; top: 0; will-change: transform; transform-style: preserve-3d; }
+.giro { position: absolute; inset: 0; transform-style: preserve-3d; }
+.cara { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.cara img { width: 100%; height: 100%; object-fit: fill; }
+.dorso { background: var(--papel); display: grid; place-items: center; }
+.dorso img { width: 38%; height: auto; }
+.frente { transform: rotateY(180deg); background: var(--papel); }
+
+/* ------------------------------------------------------------------
+   Movil: hojas a todo el ancho, nav abajo.
+   ------------------------------------------------------------------ */
+@media (max-width: 760px) {
+  .malla { row-gap: calc(1.5 * var(--u)); padding: calc(1.5 * var(--u)) var(--m); grid-template-rows: calc(2 * var(--u)) minmax(0, 1fr) calc(2 * var(--u)); }
+  .logotipo { grid-column: 1 / span 6; }
+  .pie { display: none; }
+  .nav .etiqueta { grid-row: 3; }
+  .nav .etiqueta--cap { grid-column: 1 / span 6; }
+  .nav .etiqueta--sobre { grid-column: 7 / span 6; }
+  .hueco--pila, .hueco--lista, .hueco--aparcada { grid-column: 1 / -1; }
+  .hueco--carta { grid-column: 1 / span 6; align-self: start; height: 28%; }
+  .cta, .pila { grid-column: 1 / -1; }
+  .hoja { --n: 12; grid-column: 1 / -1; }
+  .hoja--carta { align-self: end; height: calc(72% - var(--u)); row-gap: calc(var(--u) / 2); }
+  .hoja--capitulos { --n: 12; }
+  .rotulo { display: none; }
+  .hoja--carta { grid-template-rows: auto minmax(0, 1fr) auto auto auto; }
+  .titulo, .frase, .fuente, .player, .acciones { grid-column: 1 / -1; }
+  .player { grid-row: 4; height: calc(var(--u) * 5); }
+  .acciones { grid-row: 5; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
+  .lista { grid-column: 1 / -1; }
+  .fila > a, .fila > span { min-height: calc(var(--u) * 2); grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .fila .num { grid-column: 1 / span 2; }
+  .fila .nom { grid-column: 3 / -1; }
+  .sobre-foto { grid-column: 1 / span 5; }
+  .sobre-texto { grid-column: 1 / -1; }
+  .sobre-texto h2 { font-size: var(--t2); }
+}
+
+/* Reticula visible: ?grilla o tecla g (herramienta de trabajo). */
+.grilla { position: fixed; inset: 0; z-index: 99; pointer-events: none; padding: var(--m); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap);
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--u) - 1px), rgba(0, 80, 255, 0.22) calc(var(--u) - 1px), rgba(0, 80, 255, 0.22) var(--u)); }
+.grilla[hidden] { display: none; }
+.grilla i { background: rgba(255, 60, 140, 0.16); }
+
+/* Sobre el papel, las etiquetas se leen con un papel mas oscuro. */
+.hoja .etiqueta { background: #dcd7c9; }
