@@ -160,10 +160,10 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
 .fila .pronto .nom { color: var(--gris); }
 
 /* Escena De que se trata */
-.esc-sobre { justify-content: space-between; gap: calc(2 * var(--u)); }
+.esc-sobre { justify-content: space-between; gap: calc(2 * var(--u)); margin-right: calc(-1 * ((100% - 4 * var(--gap)) / 5 + var(--gap))); }
 .cuerpo-sobre { display: flex; flex-direction: column; gap: var(--u); }
 .esc-sobre h2 { margin: 0; font-size: 1.5625rem; font-weight: 400; line-height: calc(1.5 * var(--u)); letter-spacing: -0.01em; }
-.esc-sobre p { margin: 0; max-width: 28em; font-size: 1rem; line-height: var(--u); }
+.esc-sobre p { margin: 0; max-width: 38em; font-size: 1rem; line-height: var(--u); }
 .esc-sobre .firma { font-style: italic; }
 .esc-sobre ul { margin: calc(var(--u) / 2) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0 var(--u); font-size: 0.875rem; }
 .esc-sobre li a { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size var(--t-corta) var(--curva-larga); }
@@ -216,6 +216,7 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
   .escena { padding-bottom: calc(var(--u) / 2); }
   .frase { flex: none; overflow: visible; min-height: 11rem; }
   .fila a, .fila > span { min-height: calc(2 * var(--u)); line-height: calc(2 * var(--u)); }
+  .esc-sobre { margin-right: 0; }
   .esc-sobre h2 { font-size: 1.5625rem; }
 }
 
