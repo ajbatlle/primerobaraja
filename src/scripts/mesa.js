@@ -142,7 +142,7 @@ export function iniciar() {
     return lista[i];
   }
   // La frase toma el tamaño más grande que le cabe en su caja.
-  const TAMANOS = [4.6, 3.8, 3.1, 2.55, 2.1, 1.75, 1.45, 1.25];
+  const TAMANOS = [2.441, 1.953, 1.5625, 1.25, 1];
   function tamanoFrase(t) {
     const caja = E.frase;
     const px = parseFloat(getComputedStyle(raiz).fontSize) || 16;
@@ -151,7 +151,7 @@ export function iniciar() {
     for (const rem of TAMANOS) {
       const fs = rem * px;
       const lineas = Math.ceil((t.length * 0.47 * fs * 1.05) / ancho);
-      if (lineas * fs * 1.08 <= alto) return rem;
+      if (lineas * fs * 1.25 <= alto) return rem;
     }
     return TAMANOS[TAMANOS.length - 1];
   }
@@ -159,7 +159,7 @@ export function iniciar() {
     const t = f ? f.t : '';
     const rem = tamanoFrase(t);
     E.frase.style.fontSize = rem + 'rem';
-    E.frase.style.lineHeight = '1.06';
+    E.frase.style.lineHeight = rem >= 1.5 ? '1.25' : '1.5';
     revelar(E.frase, t);
     revelar(E.fuente, f ? `Capítulo ${c.orden}, minuto ${f.min}` : '');
     $('anuncio').textContent = `${c.nombre}. ${t}`;

@@ -77,7 +77,7 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
 
       <!-- Carta -->
       <section class="escena esc-carta" id="esc-carta" aria-labelledby="carta-titulo" inert>
-        <div class="rotulo pequeno"><span id="carta-rotulo"></span><h1 class="pequeno" id="carta-titulo" style="font-weight:500;color:var(--tinta)"></h1></div>
+        <div class="rotulo pequeno"><span id="carta-rotulo"></span><h1 class="pequeno" id="carta-titulo" style="font-weight:400;color:var(--tinta);font-size:0.875rem"></h1></div>
         <p class="frase" id="carta-frase"></p>
         <p class="fuente" id="carta-fuente"></p>
         <div class="player" id="carta-player"></div>
@@ -89,7 +89,7 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
 
       <!-- Capítulos -->
       <section class="escena esc-capitulos" id="esc-capitulos" aria-labelledby="cap-titulo" inert>
-        <h2 class="pequeno" id="cap-titulo" style="font-weight:500">Capítulos · {publicadas.length} de {cartas.length}</h2>
+        <h2 class="pequeno" id="cap-titulo">Capítulos · {publicadas.length} de {cartas.length}</h2>
         <div class="listas">
           {bloques.map((bloque, b) => (
             <ul class="lista">
