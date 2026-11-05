@@ -106,7 +106,7 @@ export function iniciar() {
   }
 
   // ---------- texto: revelado por cortina, al tamano final ----------
-  function revelar(el, texto) {
+  function revelar(el, texto, despues) {
     const viejas = el.querySelectorAll('.pal');
     viejas.forEach((p) => { p.classList.remove('in'); p.classList.add('sale'); });
     clearTimeout(el._t);
@@ -124,6 +124,7 @@ export function iniciar() {
         if (i < arr.length - 1) el.appendChild(document.createTextNode(' '));
       });
       void el.offsetWidth;
+      if (despues) despues();
       requestAnimationFrame(() => requestAnimationFrame(() => el.querySelectorAll('.pal').forEach((p) => p.classList.add('in'))));
     }, espera);
   }
@@ -155,12 +156,24 @@ export function iniciar() {
     }
     return TAMANOS[TAMANOS.length - 1];
   }
+  // Medicion real: si la frase se desborda de su caja, baja un peldano de la escala.
+  function ajustarFrase() {
+    const caja = E.frase;
+    let i = TAMANOS.indexOf(parseFloat(caja.style.fontSize));
+    if (i < 0) i = 0;
+    for (; i < TAMANOS.length; i++) {
+      const rem = TAMANOS[i];
+      caja.style.fontSize = rem + 'rem';
+      caja.style.lineHeight = rem >= 1.5 ? '1.25' : '1.5';
+      if (caja.scrollHeight <= caja.clientHeight + 1) break;
+    }
+  }
   function pintarFrase(c, f) {
     const t = f ? f.t : '';
     const rem = tamanoFrase(t);
     E.frase.style.fontSize = rem + 'rem';
     E.frase.style.lineHeight = rem >= 1.5 ? '1.25' : '1.5';
-    revelar(E.frase, t);
+    revelar(E.frase, t, ajustarFrase);
     revelar(E.fuente, f ? `Capítulo ${c.orden}, minuto ${f.min}` : '');
     $('anuncio').textContent = `${c.nombre}. ${t}`;
   }
@@ -208,7 +221,7 @@ export function iniciar() {
       mazo = mazo.filter((ci) => ci !== c.i).concat(c.i);
       apilar(huecos.pila, 0.94, { jitter: 0.5 });
       objetivo(c, { x: huecos.pila.cx, y: huecos.pila.cy, r: 0, s: 1, g: 180, z: 10 + mazo.length + 5 });
-      if (!silencioso) mostrarCarta(c);
+      if (!silencioso) mostrarCarta(c); else { E.frase.style.fontSize = tamanoFrase(E.frase.textContent) + "rem"; ajustarFrase(); }
     } else if (ruta.e === 'capitulos') {
       marcar('capitulos');
       apilar(huecos.pila, 0.94);
