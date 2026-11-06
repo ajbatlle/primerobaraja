@@ -32,6 +32,9 @@ def marco(g):
     filas = np.where(d.sum(1) > 900)[0]
     cols = np.where(d.sum(0) > 700)[0]
     top, fin = filas.min(), filas.max() + 1          # marco exterior completo (con rotulo)
+    ancho = cols.max() + 1 - cols.min()
+    if fin - top < ancho * 1.5:                      # el borde inferior no se detecto (p. ej. la papisa)
+        return cols.min(), top, cols.max() + 1, top + round(ancho / 0.635)
     return cols.min(), top, cols.max() + 1, top + round((fin - top) * 0.926)   # sin el rotulo
 
 
