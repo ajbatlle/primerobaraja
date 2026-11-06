@@ -69,7 +69,7 @@ img { display: block; max-width: 100%; }
 /* Barra superior: logotipo a la izquierda, navegacion a la derecha. */
 .barra { grid-column: 1 / -1; grid-row: 1; display: flex; align-items: center; justify-content: space-between; min-height: calc(2 * var(--u)); }
 .logotipo { display: block; }
-.logotipo img { height: calc(1.5 * var(--u)); width: auto; }
+.logotipo img { height: calc(1.9 * var(--u)); width: auto; }
 .nav { display: flex; gap: calc(2 * var(--u)); font-size: 1rem; }
 .nav a, .nav button { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--t-corta) var(--curva-larga); padding-bottom: 2px; }
 .nav a:hover, .nav button:hover, .nav a:focus-visible, .nav button:focus-visible, .nav a[aria-current='page'] { background-size: 100% 1px; }
@@ -84,7 +84,7 @@ html:not([data-escena='mesa']) .pila { pointer-events: none; }
   clip-path: inset(100% 0 0 0);
   transition: clip-path var(--t-corta) var(--curva-salida);
 }
-.foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; }
+.foto img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%; }
 html[data-escena='sobre'] .foto { clip-path: inset(0); transition: clip-path var(--t-larga) var(--curva-larga) 0.25s; }
 
 /* ------------------------------------------------------------------
@@ -122,8 +122,8 @@ html[data-escena='sobre'] .esc-sobre { clip-path: inset(0); transition: clip-pat
 .boton-inicio::before { content: ''; position: absolute; inset: 0; background: var(--tinta); transform: translateY(101%); transition: transform var(--t-media) var(--curva-larga); z-index: -1; }
 .boton-inicio:hover, .boton-inicio:focus-visible { color: var(--blanco); }
 .boton-inicio:hover::before, .boton-inicio:focus-visible::before { transform: none; }
-.boton-inicio .disco { flex: none; width: 0.42em; height: 0.42em; border-radius: 50%; background: var(--rojo); transition: transform var(--t-media) var(--curva-larga); }
-.boton-inicio:hover .disco, .boton-inicio:focus-visible .disco { transform: scale(1.35); }
+.boton-inicio .flecha { flex: none; width: 0.9em; height: 0.9em; color: var(--rojo); transition: transform var(--t-media) var(--curva-larga); }
+.boton-inicio:hover .flecha, .boton-inicio:focus-visible .flecha { transform: translateX(0.3em); }
 
 /* Botones: rectangulo apenas redondeado, contorno fino; al pasar se llena de tinta. */
 .boton {
@@ -181,7 +181,7 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
    ------------------------------------------------------------------ */
 .cinta { grid-column: 1 / -1; grid-row: 3; height: calc(2 * var(--u)); border-radius: 999px; background: var(--rojo); overflow: hidden; display: flex; align-items: center; pointer-events: none !important; }
 .cinta-pista { display: flex; flex: none; white-space: nowrap; animation: cinta 220s linear infinite; }
-.cinta-pista span { padding: 0 var(--u); color: var(--tinta); font-size: 0.875rem; font-weight: 400; }
+.cinta-pista span { padding: 0 var(--u); color: var(--tinta); font-size: 1.0625rem; font-weight: 400; }
 .cinta-pista span::after { content: '·'; padding-left: calc(var(--u) * 2); }
 .cinta-pista span::first-letter { text-transform: uppercase; }
 @keyframes cinta { to { transform: translateX(-50%); } }
@@ -195,9 +195,8 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
 .giro { position: absolute; inset: 0; transform-style: preserve-3d; border-radius: inherit; }
 .cara { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; border-radius: inherit; }
 .cara img { width: 100%; height: 100%; object-fit: fill; }
-.dorso { background: var(--blanco); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1); }
-.dorso img { width: 36%; height: auto; }
-.frente { transform: rotateY(180deg); background: var(--blanco); }
+.dorso { background: #e4e2e1; }
+.frente { transform: rotateY(180deg); background: #e4e2e1; }
 
 /* ------------------------------------------------------------------
    Movil: panel arriba, escena abajo.

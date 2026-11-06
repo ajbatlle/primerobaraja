@@ -10,7 +10,7 @@ import frases from '../data/frases.json';
 import sitio from '../data/sitio.json';
 import nosotros from '../data/nosotros.json';
 import logotipo from '../assets/logotipo.svg?url';
-import isotipo from '../assets/logo.svg?url';
+import dorso from '../assets/dorso.webp';
 import foto from '../assets/nosotros.webp';
 
 const naipes = import.meta.glob('../assets/naipes/*.webp', { eager: true, import: 'default' });
@@ -22,13 +22,13 @@ const pronto = cartas.filter((c) => !c.publicado);
 const filas = [...publicadas, ...pronto];
 const bloques = [filas.slice(0, 11), filas.slice(11)];
 
-// Cinta: la frase mas corta de cada capitulo. La velocidad es fija (0.16 s por
+// Cinta: la frase mas corta de cada capitulo. La velocidad es fija (0.09 s por
 // caracter), asi que la vuelta dura mas o menos segun el largo del texto.
 const cinta = publicadas
   .map((c) => [...(frases[c.slug]?.frases || [])].sort((x, y) => x.t.length - y.t.length)[0])
   .filter(Boolean)
   .map((f) => f.t);
-const vueltaCinta = Math.round(cinta.reduce((n, t) => n + t.length, 0) * 0.16 * 2);
+const vueltaCinta = Math.round(cinta.reduce((n, t) => n + t.length, 0) * 0.09 * 2);
 
 const datos = {
   show: sitio.spotifyShow,
@@ -46,7 +46,7 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
     {cartas.map((c) => (
       <div class="carta" data-slug={c.slug}>
         <div class="giro">
-          <div class="cara dorso"><img src={isotipo} alt="" /></div>
+          <div class="cara dorso"><img src={dorso.src} alt="" draggable="false" /></div>
           <div class="cara frente"><img src={c.url} alt="" draggable="false" /></div>
         </div>
       </div>
@@ -73,7 +73,7 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
     <div class="escenas">
       <!-- Mesa -->
       <section class="escena esc-mesa" id="esc-mesa" aria-label="Inicio">
-        <button class="boton-inicio" type="button" id="barajar"><span>Primero baraja</span><span class="disco" aria-hidden="true"></span></button>
+        <button class="boton-inicio" type="button" id="barajar"><span>Primero baraja</span><svg class="flecha" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M3 12h17M14 5.5 20.5 12 14 18.5" /></svg></button>
         <p class="pequeno">{cartas.length} arcanos · {publicadas.length} capítulos</p>
       </section>
 
@@ -125,7 +125,7 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
     </div>
 
     <div class="cinta" aria-hidden="true">
-      <div class="cinta-pista" style={`animation-duration: ${vueltaCinta}s`}>
+      <div class="cinta-pista" id="cinta-pista" style={`animation-duration: ${vueltaCinta}s`}>
         {[0, 1].map(() => cinta.map((t) => <span>{t}</span>))}
       </div>
     </div>
@@ -133,6 +133,10 @@ const fotoOpt = await getImage({ src: foto, width: 800, format: 'webp' });
 
   <p class="solo-lector" id="anuncio" aria-live="polite"></p>
   <div class="grilla" id="grilla" aria-hidden="true" hidden>{Array.from({ length: 12 }, () => <i></i>)}</div>
+  <script is:inline>
+    // La cinta parte de un punto al azar en cada visita, para que cambien las frases a la vista.
+    (function () { var p = document.getElementById('cinta-pista'); if (p) p.style.animationDelay = '-' + (Math.random() * parseFloat(p.style.animationDuration)).toFixed(2) + 's'; })();
+  </script>
   <noscript><p style="position:fixed;left:20px;bottom:20px;z-index:10;background:#fff;padding:12px">Para barajar necesitas JavaScript. El podcast está en <a href="https://open.spotify.com/show/39AiEVQ4054hakrVORVblu">Spotify</a>.</p></noscript>
 
   <script type="application/json" id="datos" set:html={JSON.stringify(datos)} />

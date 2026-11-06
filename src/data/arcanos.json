@@ -5,7 +5,7 @@
     "numero": "00",
     "nombre": "El loco",
     "orden": 0,
-    "spotify": "https://open.spotify.com/embed/episode/6Nl0OvuvT66OzTScyIol5I?utm_source=generator&si=82ce80dfdfa244f9",
+    "spotify": "https://open.spotify.com/embed/episode/6Nl0OvuvT66OzTScyIol5I?utm_source=generator&si=3dcc7ac9164c4432",
     "imagen": "src/assets/cartas/loco.webp",
     "bytes": 57936
   },
@@ -15,7 +15,7 @@
     "numero": "01",
     "nombre": "El mago",
     "orden": 14,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/2cs7rgz68ClnjgDhd5nUKn?utm_source=generator&si=8cdaec5c0d4646d7",
     "imagen": "src/assets/cartas/mago.webp",
     "bytes": 56520
   },
@@ -25,7 +25,7 @@
     "numero": "02",
     "nombre": "La papisa",
     "orden": 5,
-    "spotify": "https://open.spotify.com/embed/episode/56Nxhmgj4qjbMDfcXHGOLj?utm_source=generator&si=c44194f0db1c4283",
+    "spotify": "https://open.spotify.com/embed/episode/56Nxhmgj4qjbMDfcXHGOLj?utm_source=generator&si=0e6a5709d8b34551",
     "imagen": "src/assets/cartas/papisa.webp",
     "bytes": 60836
   },
@@ -55,7 +55,7 @@
     "numero": "05",
     "nombre": "El hierofante",
     "orden": 6,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/7rokdPG1T8Cw7Ytn3Jr2cF?utm_source=generator&si=6a0f0163f1a24b73",
     "imagen": "src/assets/cartas/hierofante.webp",
     "bytes": 79916
   },
@@ -65,7 +65,7 @@
     "numero": "06",
     "nombre": "Los enamorados",
     "orden": 11,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/5HWQuQzVeLoD4hzqnN52J7?utm_source=generator&si=cda74a5c0dd54ee0",
     "imagen": "src/assets/cartas/enamorados.webp",
     "bytes": 87820
   },
@@ -75,7 +75,7 @@
     "numero": "07",
     "nombre": "El carro",
     "orden": 4,
-    "spotify": "https://open.spotify.com/embed/episode/5BodOGZkjjDszJHM8GmBDu?utm_source=generator&si=c153419da9b34ed7",
+    "spotify": "https://open.spotify.com/embed/episode/5BodOGZkjjDszJHM8GmBDu?utm_source=generator&si=dd9cb472a5084805",
     "imagen": "src/assets/cartas/carro.webp",
     "bytes": 72586
   },
@@ -85,7 +85,7 @@
     "numero": "08",
     "nombre": "La fuerza",
     "orden": 3,
-    "spotify": "https://open.spotify.com/embed/episode/4XixGKyAKBHPwpXldbnL35?utm_source=generator&si=f2c19324e3574080",
+    "spotify": "https://open.spotify.com/embed/episode/4XixGKyAKBHPwpXldbnL35?utm_source=generator&si=38af59ac9d1c44c1",
     "imagen": "src/assets/cartas/fuerza.webp",
     "bytes": 55176
   },
@@ -95,7 +95,7 @@
     "numero": "09",
     "nombre": "El ermitaño",
     "orden": 8,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/5iDg1sVnPXnN0K35PogHLQ?utm_source=generator&si=e32f10cdf6974bc9",
     "imagen": "src/assets/cartas/ermitano.webp",
     "bytes": 68676
   },
@@ -105,7 +105,7 @@
     "numero": "10",
     "nombre": "La rueda de la fortuna",
     "orden": 1,
-    "spotify": "https://open.spotify.com/embed/episode/2exnahcmuChNfQ11bghrm1?utm_source=generator&si=184fe392619a41f5",
+    "spotify": "https://open.spotify.com/embed/episode/2exnahcmuChNfQ11bghrm1?utm_source=generator&si=9169712801704dba",
     "imagen": "src/assets/cartas/rueda.webp",
     "bytes": 80148
   },
@@ -145,7 +145,7 @@
     "numero": "14",
     "nombre": "La templanza",
     "orden": 2,
-    "spotify": "https://open.spotify.com/embed/episode/3qk9sUVL5zAtiKR1WtcjlD?utm_source=generator&si=1de488b6d99d4209",
+    "spotify": "https://open.spotify.com/embed/episode/3qk9sUVL5zAtiKR1WtcjlD?utm_source=generator&si=98613848d55746b8",
     "imagen": "src/assets/cartas/templanza.webp",
     "bytes": 89856
   },
@@ -155,7 +155,7 @@
     "numero": "15",
     "nombre": "El diablo",
     "orden": 10,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/2RGLmrV0YBij8yDtoCGrZp?utm_source=generator&si=ecbe99ef7e63499a",
     "imagen": "src/assets/cartas/diablo.webp",
     "bytes": 59728
   },
@@ -165,7 +165,7 @@
     "numero": "16",
     "nombre": "La torre",
     "orden": 7,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/34hbIAvTInSqZNHH69daQF?utm_source=generator&si=3154e777f3c54201",
     "imagen": "src/assets/cartas/torre.webp",
     "bytes": 59966
   },
@@ -175,7 +175,7 @@
     "numero": "17",
     "nombre": "La estrella",
     "orden": 9,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/1GNsxaXb02w1JXP2Z6p6dX?utm_source=generator&si=d692e2aa24934bbd",
     "imagen": "src/assets/cartas/estrella.webp",
     "bytes": 67670
   },
@@ -195,7 +195,7 @@
     "numero": "19",
     "nombre": "El sol",
     "orden": 12,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/1sJVjZew48yUhRj8Lv9Wey?utm_source=generator&si=f6a8014988fb4dbd",
     "imagen": "src/assets/cartas/sol.webp",
     "bytes": 76570
   },
@@ -215,7 +215,7 @@
     "numero": "21",
     "nombre": "El mundo",
     "orden": 13,
-    "spotify": null,
+    "spotify": "https://open.spotify.com/embed/episode/7m2eJC07J0mY1ySgk1e13F?utm_source=generator&si=f01dcd7428ac4ed0",
     "imagen": "src/assets/cartas/mundo.webp",
     "bytes": 79306
   }

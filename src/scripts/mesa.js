@@ -9,7 +9,7 @@
 
 import { amortiguar, bucle } from './movimiento.js';
 
-const RAZON = 420 / 716; // carta Rider recortada a su rectangulo real
+const RAZON = 840 / 1305; // carta Rider recortada al marco de la lamina, sin rotulo
 const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const movil = () => matchMedia('(max-width: 760px)').matches;
 const ROMANOS = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
