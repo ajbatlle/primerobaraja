@@ -114,7 +114,7 @@
     "slugOriginal": "justicia",
     "numero": "11",
     "nombre": "La justicia",
-    "orden": 16,
+    "orden": null,
     "spotify": null,
     "imagen": "src/assets/cartas/justicia.webp",
     "bytes": 73132
@@ -134,7 +134,7 @@
     "slugOriginal": "muerte",
     "numero": "13",
     "nombre": "La muerte",
-    "orden": 15,
+    "orden": null,
     "spotify": null,
     "imagen": "src/assets/cartas/muerte.webp",
     "bytes": 86662
