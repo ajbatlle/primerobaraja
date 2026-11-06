@@ -148,7 +148,7 @@ export function iniciar() {
     const caja = E.frase;
     const px = parseFloat(getComputedStyle(raiz).fontSize) || 16;
     const ancho = caja.clientWidth || 500;
-    const alto = movil() ? 176 : (caja.clientHeight || 300);
+    const alto = movil() ? 128 : (caja.clientHeight || 300);
     for (const rem of TAMANOS) {
       const fs = rem * px;
       const lineas = Math.ceil((t.length * 0.47 * fs * 1.05) / ancho);

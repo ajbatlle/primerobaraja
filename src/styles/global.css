@@ -26,6 +26,11 @@
   --suave: #f1f1ef;
 }
 
+/* Pantallas bajas: la unidad se achica para que cada escena entre entera, sin desplazarse. */
+@media (min-width: 761px) and (max-height: 860px) { :root { --u: 1.3125rem; } }
+@media (min-width: 761px) and (max-height: 760px) { :root { --u: 1.125rem; } .player { height: 132px; } }
+@media (min-width: 761px) and (max-height: 640px) { :root { --u: 1rem; } .player { height: 112px; } }
+
 *, *::before, *::after { box-sizing: border-box; }
 
 /* El escenario es la pantalla: la pagina no se desplaza. Lo que no cabe
@@ -203,7 +208,7 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
    ------------------------------------------------------------------ */
 @media (max-width: 760px) {
   :root { --u: 1.25rem; --m: var(--u); }
-  .malla { grid-template-rows: auto 36% minmax(0, 1fr) auto; gap: var(--u); }
+  .malla { grid-template-rows: auto 30% minmax(0, 1fr) auto; gap: var(--u); }
   .mesa { grid-column: 1 / -1; grid-row: 2; }
   .escenas { grid-column: 1 / -1; grid-row: 3; }
   .cinta { grid-row: 4; }
@@ -213,7 +218,10 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
   .pie-carta { flex-direction: column; align-items: flex-start; }
   .listas { grid-template-columns: 1fr; }
   .escena { padding-bottom: calc(var(--u) / 2); }
-  .frase { flex: none; overflow: visible; min-height: 11rem; }
+  .esc-carta { gap: calc(var(--u) / 2); }
+  .player { height: 112px; }
+  .cuerpo-sobre { gap: calc(var(--u) / 2); }
+  .frase { flex: none; overflow: visible; min-height: 8rem; }
   .fila a, .fila > span { min-height: calc(2 * var(--u)); line-height: calc(2 * var(--u)); }
   .esc-sobre { margin-right: 0; }
   .esc-sobre h2 { font-size: 1.5625rem; }
