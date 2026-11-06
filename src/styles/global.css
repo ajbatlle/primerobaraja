@@ -74,7 +74,7 @@ img { display: block; max-width: 100%; }
 /* Barra superior: logotipo a la izquierda, navegacion a la derecha. */
 .barra { grid-column: 1 / -1; grid-row: 1; display: flex; align-items: center; justify-content: space-between; min-height: calc(2 * var(--u)); }
 .logotipo { display: block; }
-.logotipo img { height: calc(1.9 * var(--u)); width: auto; }
+.logotipo img { height: 2.85rem; width: auto; }
 .nav { display: flex; gap: calc(2 * var(--u)); font-size: 1rem; }
 .nav a, .nav button { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--t-corta) var(--curva-larga); padding-bottom: 2px; }
 .nav a:hover, .nav button:hover, .nav a:focus-visible, .nav button:focus-visible, .nav a[aria-current='page'] { background-size: 100% 1px; }
@@ -165,7 +165,7 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
 .fila .pronto .nom { color: var(--gris); }
 
 /* Escena De que se trata */
-.esc-sobre { justify-content: space-between; gap: calc(2 * var(--u)); margin-right: calc(-1 * ((100% - 4 * var(--gap)) / 5 + var(--gap))); }
+.esc-sobre { justify-content: flex-start; gap: var(--u); margin-right: calc(-1 * ((100% - 4 * var(--gap)) / 5 + var(--gap))); }
 .cuerpo-sobre { display: flex; flex-direction: column; gap: var(--u); }
 .esc-sobre h2 { margin: 0; font-size: 1.5625rem; font-weight: 400; line-height: calc(1.5 * var(--u)); letter-spacing: -0.01em; }
 .esc-sobre p { margin: 0; max-width: 38em; font-size: 1rem; line-height: var(--u); }
@@ -175,7 +175,7 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
 .esc-sobre li a:hover { background-size: 0 1px; }
 
 /* Revelado de texto: cada palabra sube desde una cortina, al tamano final. */
-.pal { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.18em; margin-bottom: -0.18em; }
+.pal { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.14em 0.18em; margin: 0 -0.14em -0.18em; }
 .pal > span { display: inline-block; transform: translateY(115%); transition: transform var(--t-media) var(--curva-larga); transition-delay: calc(var(--i, 0) * 14ms); }
 .pal.in > span { transform: none; }
 .pal.sale > span { transform: translateY(-115%); transition: transform var(--t-corta) var(--curva-salida); transition-delay: calc(var(--i, 0) * 5ms); }
