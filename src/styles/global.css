@@ -184,7 +184,7 @@ html[data-escena='capitulos'] .fila .nom, html[data-escena='capitulos'] .fila .n
 /* ------------------------------------------------------------------
    Cinta roja con frases del podcast, a todo el ancho de la reticula.
    ------------------------------------------------------------------ */
-.cinta { grid-column: 1 / -1; grid-row: 3; height: calc(2 * var(--u)); border-radius: 999px; background: var(--rojo); overflow: hidden; display: flex; align-items: center; pointer-events: none !important; }
+.cinta { grid-column: 1 / -1; grid-row: 3; height: calc(2 * var(--u)); border-radius: 0; margin: 0 calc(-1 * var(--m)) calc(-1 * var(--m)); background: var(--rojo); overflow: hidden; display: flex; align-items: center; pointer-events: none !important; }
 .cinta-pista { display: flex; flex: none; white-space: nowrap; animation: cinta 220s linear infinite; }
 .cinta-pista span { padding: 0 var(--u); color: var(--tinta); font-size: 1.0625rem; font-weight: 400; }
 .cinta-pista span::after { content: '·'; padding-left: calc(var(--u) * 2); }
